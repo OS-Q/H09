@@ -3,7 +3,7 @@ from platform import system
 from platformio.managers.platform import PlatformBase
 
 
-class Nordicnrf52Platform(PlatformBase):
+class H9Platform(PlatformBase):
 
     def is_embedded(self):
         return True

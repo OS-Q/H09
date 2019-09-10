@@ -1,18 +1,18 @@
 {
-  "name": "nordicnrf52",
-  "title": "Nordic nRF52",
-  "description": "The nRF52 Series are built for speed to carry out increasingly complex tasks in the shortest possible time and return to sleep, Cortex-M4F processor and are the most capable Bluetooth Smart SoCs on the market.",
+  "name": "H9",
+  "title": "NRF52",
+  "description": "H9 NRF52 BLE开发平台",
   "url": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
-  "homepage": "https://github.com/OS-Q/H2",
+  "homepage": "https://github.com/OS-Q/H9",
   "license": " ",
   "engines": {
     "platformio": "<5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/H2.git"
+    "url": "https://github.com/OS-Q/H9.git"
   },
-  "version": "3.6.0",
+  "version": "1.0.0",
   "packageRepositories": [
     "https://dl.bintray.com/platformio/dl-packages/manifest.json",
     "http://dl.platformio.org/packages/manifest.json"
@@ -23,19 +23,15 @@
       "script": "builder/frameworks/arduino.py"
     },
     "mbed": {
-      "package": "framework-mbed",
+      "package": "framework-N2",
       "script": "builder/frameworks/mbed.py"
     }
   },
   "packages": {
-    "toolchain-gccarmnoneeabi": {
-      "type": "toolchain",
-      "version": ">=1.60301.0,<1.80000.0"
-    },
-    "framework-mbed": {
+    "framework-N2": {
       "type": "framework",
       "optional": true,
-      "version": "~5.51304.190826"
+      "version": "https://github.com/OS-Q/N2.git"
     },
     "framework-arduinoadafruitnrf52": {
       "type": "framework",
@@ -46,6 +42,10 @@
       "type": "framework",
       "optional": true,
       "version": "~1.600.0"
+    },
+    "toolchain-gccarmnoneeabi": {
+      "type": "toolchain",
+      "version": ">=1.70000.0,<1.80000.0"
     },
     "tool-sreccat": {
       "version": "~1.164.0"
