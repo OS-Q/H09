@@ -19,7 +19,7 @@ class H9Platform(PlatformBase):
             if self.board_config(board).get("build.bsp.name",
                                             "nrf5") == "adafruit":
                 self.frameworks['arduino'][
-                    'package'] = "framework-arduinoadafruitnrf52"
+                    'package'] = "framework-N10"
 
         if set(["bootloader", "erase"]) & set(targets):
             self.packages["tool-nrfjprog"]["optional"] = False
