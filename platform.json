@@ -1,10 +1,10 @@
 {
   "name": "H9",
   "title": "H9",
-  "description": "nRF52 BLE开发平台",
+  "description": "nRF52开发平台",
   "url": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
   "homepage": "https://github.com/OS-Q/H9",
-  "license": " ",
+  "license": "MIT",
   "engines": {
     "platformio": "<5"
   },
@@ -14,8 +14,9 @@
   },
   "version": "1.0.0",
   "packageRepositories": [
-    "https://dl.bintray.com/platformio/dl-packages/manifest.json",
-    "http://dl.platformio.org/packages/manifest.json"
+    "http://182.61.61.133/manifest/toolchain/manifest.json",
+    "http://182.61.61.133/manifest/framework/manifest.json",
+    "http://182.61.61.133/manifest/manifest.json"
   ],
   "frameworks": {
     "arduino": {
@@ -37,11 +38,6 @@
       "type": "framework",
       "optional": true,
       "version": "https://github.com/OS-Q/N9.git"
-    },
-    "framework-N10": {
-      "type": "framework",
-      "optional": true,
-      "version": "https://github.com/OS-Q/N10.git"
     },
     "toolchain-gccarmnoneeabi": {
       "type": "toolchain",

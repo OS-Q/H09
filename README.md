@@ -1,6 +1,6 @@
 ﻿# [Platform H9](https://github.com/OS-Q/H9)
 
-[![sites](OS-Q/OS-Q.png)](http://www.OS-Q.com)
+[![sites](http://182.61.61.133//resources/OS-Q.png)](http://www.OS-Q.com)
 
 #### 关于系统架构：[OS-Q](https://github.com/OS-Q/OS-Q)
 
@@ -8,7 +8,7 @@
 
 ### [Platform描述](https://github.com/OS-Q/H9/wiki) 
 
-[Platform H9](https://github.com/OS-Q/H9)基于PlatformIO开发平台
+[Platform H9](https://github.com/OS-Q/H9)基于PlatformIO平台，用于nRF52芯平台开发
 
 ### [OS-Q = Open Solutions | Open Source |  Operating System ](http://www.OS-Q.com/H9)
 ####  2019-8-26
