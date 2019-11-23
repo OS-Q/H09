@@ -1,6 +1,5 @@
 ﻿# [Platform H9](https://github.com/OS-Q/H9)
-
-[![sites](http://182.61.61.133//resources/OS-Q.png)](http://www.OS-Q.com)
+[![sites](http://182.61.61.133/link/resources/OSQ.png)](http://www.OS-Q.com)
 
 #### 关于系统架构：[OS-Q](https://github.com/OS-Q/OS-Q)
 
