@@ -19,7 +19,8 @@ BLEService               ledService           = BLEService("19b10000e8f2537e4f6c
 BLECharCharacteristic    switchCharacteristic = BLECharCharacteristic("19b10001e8f2537e4f6cd104768a1214", BLERead | BLEWrite);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
+  
 #if defined (__AVR_ATmega32U4__)
   delay(5000);  //5 seconds delay for enabling to see the start up comments on the serial board
 #endif
@@ -28,7 +29,7 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
 
   // set advertised local name and service UUID
-  blePeripheral.setLocalName("LED");
+  blePeripheral.setLocalName("Q-LED");
   blePeripheral.setAdvertisedServiceUuid(ledService.uuid());
 
   // add service and characteristic
@@ -37,8 +38,7 @@ void setup() {
 
   // begin initialization
   blePeripheral.begin();
-
-  Serial.println(F("BLE LED Peripheral"));
+  Serial.println(F("BLE LED test"));
 }
 
 void loop() {
