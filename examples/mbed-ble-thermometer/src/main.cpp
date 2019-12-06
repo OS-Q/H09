@@ -5,8 +5,9 @@
 #include "ble/services/HealthThermometerService.h"
 
 DigitalOut led1(LED1, 1);
+Serial com(USBTX, USBRX); // tx, rx
 
-const static char     DEVICE_NAME[]        = "PIOTherm";
+const static char     DEVICE_NAME[]        = "Qitas";
 static const uint16_t uuid16_list[]        = {GattService::UUID_HEALTH_THERMOMETER_SERVICE};
 
 static float                     currentTemperature   = 39.6;
@@ -33,6 +34,7 @@ void periodicCallback(void)
 
     if (BLE::Instance().gap().getState().connected) {
         eventQueue.call(updateSensorValue);
+        com.printf("update\r\n");
     }
 }
 
@@ -45,7 +47,7 @@ void bleInitComplete(BLE::InitializationCompleteCallbackContext *params)
 {
     BLE&        ble   = params->ble;
     ble_error_t error = params->error;
-
+ 
     if (error != BLE_ERROR_NONE) {
         onBleInitError(ble, error);
         return;
