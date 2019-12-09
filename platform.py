@@ -1,9 +1,10 @@
 from platform import system
 
 from platformio.managers.platform import PlatformBase
+from platformio.util import get_systype
 
 
-class H9Platform(PlatformBase):
+class H09Platform(PlatformBase):
 
     def is_embedded(self):
         return True
@@ -19,7 +20,19 @@ class H9Platform(PlatformBase):
             if self.board_config(board).get("build.bsp.name",
                                             "nrf5") == "adafruit":
                 self.frameworks['arduino'][
-                    'package'] = "framework-N10"
+                    'package'] = "framework-N20"
+                    
+            if "zephyr" in variables.get("pioframework", []):
+                for p in ("framework-zephyr-hal-nordic", "tool-cmake", "tool-dtc", "tool-ninja"):
+                    self.packages[p]["optional"] = False
+                self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
+                if "windows" not in get_systype():
+                    self.packages['tool-gperf']['optional'] = False
+
+            if board == "nano33ble":
+                self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
+                self.frameworks['arduino']['package'] = "framework-arduino-nrf52-mbedos"
+                self.frameworks['arduino']['script'] = "builder/frameworks/arduino/nrf52-mbedos.py"
 
         if set(["bootloader", "erase"]) & set(targets):
             self.packages["tool-nrfjprog"]["optional"] = False

@@ -4,6 +4,15 @@ u-blox NINA-B1 Arduino example
 Leonardo Bispo
 March - 2019
 https://github.com/ldab/Arduino-u-blox-NINA-B1
+
+Distributed as-is; no warranty is given.
+
+This example tries to implement some key functions and key PIN atributes in order
+to get you started with using Arduino and the NRF52832 board u-blox NINA-B1
+
+Timer functionas are implemented intead of delay() and the PINs have been re-mapped
+on the #define section
+
 ******************************************************************************/
 
 #include <Arduino.h>

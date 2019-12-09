@@ -1,19 +1,61 @@
+# Copyright 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import sys
 from platform import system
 from os import makedirs
-from os.path import isdir, join
+from os.path import isdir, join, basename
 
 from SCons.Script import (ARGUMENTS, COMMAND_LINE_TARGETS, AlwaysBuild,
                           Builder, Default, DefaultEnvironment)
+
+from platformio.util import get_serialports
+
+
+def BeforeUpload(target, source, env):  # pylint: disable=W0613,W0621
+    env.AutodetectUploadPort()
+
+    upload_options = {}
+    if "BOARD" in env:
+        upload_options = env.BoardConfig().get("upload", {})
+
+    if not bool(upload_options.get("disable_flushing", False)):
+        env.FlushSerialBuffer("$UPLOAD_PORT")
+
+    before_ports = get_serialports()
+
+    if bool(upload_options.get("use_1200bps_touch", False)):
+        env.TouchSerialPort("$UPLOAD_PORT", 1200)
+
+    if bool(upload_options.get("wait_for_upload_port", False)):
+        env.Replace(UPLOAD_PORT=env.WaitForNewSerialPort(before_ports))
+
+    # use only port name for BOSSA
+    if ("/" in env.subst("$UPLOAD_PORT") and
+            env.subst("$UPLOAD_PROTOCOL") == "sam-ba"):
+        env.Replace(UPLOAD_PORT=basename(env.subst("$UPLOAD_PORT")))
+
 
 env = DefaultEnvironment()
 platform = env.PioPlatform()
 board = env.BoardConfig()
 variant = board.get("build.variant", "")
 
-use_adafruit = board.get("build.bsp.name", "nrf5") == "adafruit"
+use_adafruit = board.get(
+    "build.bsp.name", "nrf5") == "adafruit" and "arduino" in env.get("PIOFRAMEWORK", [])
 if use_adafruit:
-    FRAMEWORK_DIR = platform.get_package_dir("framework-N10")
+    FRAMEWORK_DIR = platform.get_package_dir("framework-N20")
 
     os_platform = sys.platform
     if os_platform == "win32":
@@ -135,6 +177,13 @@ if not env.get("PIOFRAMEWORK"):
 # Target: Build executable and linkable firmware
 #
 
+if "zephyr" in env.get("PIOFRAMEWORK", []):
+    env.SConscript(
+        join(platform.get_package_dir(
+            "framework-N03"), "scripts", "platformio", "platformio-build-pre.py"),
+        exports={"env": env}
+    )
+
 upload_protocol = env.subst("$UPLOAD_PROTOCOL")
 target_elf = None
 if "nobuild" in COMMAND_LINE_TARGETS:
@@ -159,6 +208,8 @@ else:
             target_firm = env.SignBin(
                 join("$BUILD_DIR", "${PROGNAME}"),
                 env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf))
+    elif "sam-ba" == upload_protocol:
+        target_firm = env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
     else:
         target_firm = env.ElfToHex(
             join("$BUILD_DIR", "${PROGNAME}"), target_elf)
@@ -253,6 +304,22 @@ elif upload_protocol == "nrfutil":
     )
     upload_actions = [env.VerboseAction(env.AutodetectUploadPort, "Looking for upload port..."),
                       env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
+
+elif upload_protocol == "sam-ba":
+    env.Replace(
+        UPLOADER="bossac",
+        UPLOADERFLAGS=[
+            "--port", '"$UPLOAD_PORT"', "--write", "--erase", "-U", "--reset"
+        ],
+        UPLOADCMD="$UPLOADER $UPLOADERFLAGS $SOURCES"
+    )
+    if int(ARGUMENTS.get("PIOVERBOSE", 0)):
+        env.Prepend(UPLOADERFLAGS=["--info", "--debug"])
+
+    upload_actions = [
+        env.VerboseAction(BeforeUpload, "Looking for upload port..."),
+        env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")
+    ] 
 
 elif upload_protocol.startswith("jlink"):
 

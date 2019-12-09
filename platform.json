@@ -1,17 +1,23 @@
 {
-  "name": "H9",
-  "title": "H9",
-  "description": "nRF52开发平台",
+  "name": "H09",
+  "title": "H09",
+  "description": "H09: BLE SoC nRF52",
   "url": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
-  "homepage": "http://www.OS-Q.com/H9",
+  "homepage": "http://www.OS-Q.com/H09",
   "license": "MIT",
   "engines": {
     "platformio": "<5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/H9.git"
+    "url": "https://github.com/OS-Q/H09.git"
   },
+  "authors": [{
+    "name": "qitas",
+    "email": "qitas@qitas.cn",
+    "url": "https://www.OS-Q.com"
+}],
+  "keywords": "OS-Q ,BLE, nRF52 ",
   "version": "1.0.0",
   "packageRepositories": [
     "http://182.61.61.133/link/toolchain/manifest.json",
@@ -29,6 +35,10 @@
     "mbed": {
       "package": "framework-N18",
       "script": "builder/frameworks/mbed.py"
+    },
+    "zephyr": {
+      "package": "framework-N03",
+      "script": "builder/frameworks/zephyr.py"
     }
   },
   "packages": {
@@ -37,14 +47,33 @@
       "optional": true,
       "version": "https://github.com/OS-Q/N18.git"
     },
+    "framework-N20": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/N20.git"
+    },
     "framework-N19": {
       "type": "framework",
       "optional": true,
       "version": "https://github.com/OS-Q/N19.git"
     },
+    "framework-arduino-nrf52-mbedos": {
+      "type": "framework",
+      "optional": true,
+      "version": "~1.1.3"
+    },
+    "framework-N03": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/N03.git"
+    },
+    "framework-zephyr-hal-nordic": {
+      "optional": true,
+      "version": "~0.0.191028"
+    },
     "toolchain-gccarmnoneeabi": {
       "type": "toolchain",
-      "version": ">=1.70000.0,<1.80000.0"
+      "version": ">=1.60301.0,<1.80000.0"
     },
     "tool-sreccat": {
       "version": "~1.164.0"
@@ -63,6 +92,27 @@
       "type": "uploader",
       "optional": true,
       "version": "^1.63208.0"
+    },
+    "tool-bossac-nordicnrf52": {
+      "type": "uploader",
+      "optional": true,
+      "version": "~1.10866.0"
+    },
+    "tool-cmake": {
+      "optional": true,
+      "version": "~3.15.0"
+    },
+    "tool-dtc": {
+      "optional": true,
+      "version": "~1.4.7"
+    },
+    "tool-ninja": {
+      "optional": true,
+      "version": "^1.7.0"
+    },
+    "tool-gperf": {
+      "optional": true,
+      "version": "^3.0.0"
     }
   }
 }
