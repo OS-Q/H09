@@ -20,7 +20,7 @@ from os.path import isdir, join, basename
 from SCons.Script import (ARGUMENTS, COMMAND_LINE_TARGETS, AlwaysBuild,
                           Builder, Default, DefaultEnvironment)
 
-from platformio.util import get_serialports
+from platformio.util import get_serial_ports
 
 
 def BeforeUpload(target, source, env):  # pylint: disable=W0613,W0621
@@ -33,7 +33,7 @@ def BeforeUpload(target, source, env):  # pylint: disable=W0613,W0621
     if not bool(upload_options.get("disable_flushing", False)):
         env.FlushSerialBuffer("$UPLOAD_PORT")
 
-    before_ports = get_serialports()
+    before_ports = get_serial_ports()
 
     if bool(upload_options.get("use_1200bps_touch", False)):
         env.TouchSerialPort("$UPLOAD_PORT", 1200)
@@ -48,6 +48,7 @@ def BeforeUpload(target, source, env):  # pylint: disable=W0613,W0621
 
 
 env = DefaultEnvironment()
+env.SConscript("compat.py", exports="env")
 platform = env.PioPlatform()
 board = env.BoardConfig()
 variant = board.get("build.variant", "")
@@ -55,7 +56,7 @@ variant = board.get("build.variant", "")
 use_adafruit = board.get(
     "build.bsp.name", "nrf5") == "adafruit" and "arduino" in env.get("PIOFRAMEWORK", [])
 if use_adafruit:
-    FRAMEWORK_DIR = platform.get_package_dir("framework-N20")
+    FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoadafruitnrf52")
 
     os_platform = sys.platform
     if os_platform == "win32":
@@ -180,7 +181,7 @@ if not env.get("PIOFRAMEWORK"):
 if "zephyr" in env.get("PIOFRAMEWORK", []):
     env.SConscript(
         join(platform.get_package_dir(
-            "framework-N03"), "scripts", "platformio", "platformio-build-pre.py"),
+            "framework-zephyr"), "scripts", "platformio", "platformio-build-pre.py"),
         exports={"env": env}
     )
 
@@ -196,23 +197,23 @@ else:
         target_firm = env.MergeHex(
             join("$BUILD_DIR", "${PROGNAME}"),
             env.ElfToHex(join("$BUILD_DIR", "userfirmware"), target_elf))
-    elif "DFUBOOTHEX" in env:
-        if "nrfutil" == upload_protocol:
-            target_firm = env.PackageDfu(
-                join("$BUILD_DIR", "${PROGNAME}"),
-                env.ElfToHex(join("$BUILD_DIR", "${PROGNAME}"), target_elf))
-        elif "nrfjprog" == upload_protocol:
-            target_firm = env.ElfToHex(
-                join("$BUILD_DIR", "${PROGNAME}"), target_elf)
-        else:
-            target_firm = env.SignBin(
-                join("$BUILD_DIR", "${PROGNAME}"),
-                env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf))
+    elif "nrfutil" == upload_protocol and use_adafruit:
+        target_firm = env.PackageDfu(
+            join("$BUILD_DIR", "${PROGNAME}"),
+            env.ElfToHex(join("$BUILD_DIR", "${PROGNAME}"), target_elf))
+    elif "nrfjprog" == upload_protocol:
+        target_firm = env.ElfToHex(
+            join("$BUILD_DIR", "${PROGNAME}"), target_elf)
     elif "sam-ba" == upload_protocol:
         target_firm = env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
     else:
-        target_firm = env.ElfToHex(
-            join("$BUILD_DIR", "${PROGNAME}"), target_elf)
+        if "DFUBOOTHEX" in env:
+            target_firm = env.SignBin(
+                join("$BUILD_DIR", "${PROGNAME}"),
+                env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf))
+        else:
+            target_firm = env.ElfToHex(
+                join("$BUILD_DIR", "${PROGNAME}"), target_elf)
 
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
@@ -223,25 +224,52 @@ if "DFUBOOTHEX" in env:
         BOOT_SETTING_ADDR=board.get("build.bootloader.settings_addr", "0x7F000")
     )
 
-    AlwaysBuild(env.Alias("dfu", env.PackageDfu(
-        join("$BUILD_DIR", "${PROGNAME}"),
-        env.ElfToHex(join("$BUILD_DIR", "${PROGNAME}"), target_elf))))
+    env.AddPlatformTarget(
+        "dfu",
+        env.PackageDfu(
+            join("$BUILD_DIR", "${PROGNAME}"),
+            env.ElfToHex(join("$BUILD_DIR", "${PROGNAME}"), target_elf),
+        ),
+        None,
+        "Generate DFU Image",
+    )
 
-    AlwaysBuild(env.Alias("bootloader", None, [
-        env.VerboseAction("nrfjprog --program $DFUBOOTHEX -f nrf52 --chiperase", "Uploading $DFUBOOTHEX"),
-        env.VerboseAction("nrfjprog --erasepage $BOOT_SETTING_ADDR -f nrf52", "Erasing bootloader config"),
-        env.VerboseAction("nrfjprog --memwr $BOOT_SETTING_ADDR --val 0x00000001 -f nrf52", "Disable CRC check"),
-        env.VerboseAction("nrfjprog --reset -f nrf52", "Reset nRF52")
-    ]))
+    env.AddPlatformTarget(
+        "bootloader",
+        None,
+        [
+            env.VerboseAction(
+                "nrfjprog --program $DFUBOOTHEX -f nrf52 --chiperase",
+                "Uploading $DFUBOOTHEX",
+            ),
+            env.VerboseAction(
+                "nrfjprog --erasepage $BOOT_SETTING_ADDR -f nrf52",
+                "Erasing bootloader config",
+            ),
+            env.VerboseAction(
+                "nrfjprog --memwr $BOOT_SETTING_ADDR --val 0x00000001 -f nrf52",
+                "Disable CRC check",
+            ),
+            env.VerboseAction("nrfjprog --reset -f nrf52", "Reset nRF52"),
+        ],
+        "Burn Bootloader",
+    )
+
+if "bootloader" in COMMAND_LINE_TARGETS and "DFUBOOTHEX" not in env:
+    sys.stderr.write("Error. The board is missing the bootloader binary.\n")
+    env.Exit(1)
 
 #
 # Target: Print binary size
 #
 
-target_size = env.Alias(
-    "size", target_elf,
-    env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"))
-AlwaysBuild(target_size)
+target_size = env.AddPlatformTarget(
+    "size",
+    target_elf,
+    env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"),
+    "Program Size",
+    "Calculate program size",
+)
 
 #
 # Target: Upload by default .bin file
@@ -302,8 +330,10 @@ elif upload_protocol == "nrfutil":
         ],
         UPLOADCMD='"$UPLOADER" $UPLOADERFLAGS -pkg $SOURCE'
     )
-    upload_actions = [env.VerboseAction(env.AutodetectUploadPort, "Looking for upload port..."),
-                      env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
+    upload_actions = [
+        env.VerboseAction(BeforeUpload, "Looking for upload port..."),
+        env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")
+    ]
 
 elif upload_protocol == "sam-ba":
     env.Replace(
@@ -319,7 +349,7 @@ elif upload_protocol == "sam-ba":
     upload_actions = [
         env.VerboseAction(BeforeUpload, "Looking for upload port..."),
         env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")
-    ] 
+    ]
 
 elif upload_protocol.startswith("jlink"):
 
@@ -351,7 +381,8 @@ elif upload_protocol.startswith("jlink"):
             "-device", env.BoardConfig().get("debug", {}).get("jlink_device"),
             "-speed", "4000",
             "-if", ("jtag" if upload_protocol == "jlink-jtag" else "swd"),
-            "-autoconnect", "1"
+            "-autoconnect", "1",
+            "-NoGui", "1"
         ],
         UPLOADCMD='$UPLOADER $UPLOADERFLAGS -CommanderScript "${__jlink_cmd_script(__env__, SOURCE)}"'
     )
@@ -385,16 +416,23 @@ elif upload_protocol == "custom":
 else:
     sys.stderr.write("Warning! Unknown upload protocol %s\n" % upload_protocol)
 
-AlwaysBuild(env.Alias("upload", target_firm, upload_actions))
+env.AddPlatformTarget("upload", target_firm, upload_actions, "Upload")
 
 
 #
 # Target: Erase Flash
 #
 
-AlwaysBuild(
-    env.Alias("erase", None, env.VerboseAction("$ERASECMD",
-                                               "Erasing...")))
+env.AddPlatformTarget(
+    "erase", None, env.VerboseAction("$ERASECMD", "Erasing..."), "Erase Flash")
+
+#
+# Information about obsolete method of specifying linker scripts
+#
+
+if any("-Wl,-T" in f for f in env.get("LINKFLAGS", [])):
+    print("Warning! '-Wl,-T' option for specifying linker scripts is deprecated. "
+          "Please use 'board_build.ldscript' option in your 'platformio.ini' file.")
 
 #
 # Default targets

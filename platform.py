@@ -1,10 +1,12 @@
-from platform import system
+import json
+import os
+import platform
 
 from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class H09Platform(PlatformBase):
+class P09Platform(PlatformBase):
 
     def is_embedded(self):
         return True
@@ -12,6 +14,7 @@ class H09Platform(PlatformBase):
     def configure_default_packages(self, variables, targets):
         upload_protocol = ""
         board = variables.get("board")
+        frameworks = variables.get("pioframework", [])
         if board:
             upload_protocol = variables.get(
                 "upload_protocol",
@@ -20,11 +23,25 @@ class H09Platform(PlatformBase):
             if self.board_config(board).get("build.bsp.name",
                                             "nrf5") == "adafruit":
                 self.frameworks['arduino'][
-                    'package'] = "framework-N20"
-                    
-            if "zephyr" in variables.get("pioframework", []):
-                for p in ("framework-zephyr-hal-nordic", "tool-cmake", "tool-dtc", "tool-ninja"):
-                    self.packages[p]["optional"] = False
+                    'package'] = "framework-arduinoadafruitnrf52"
+
+            if "mbed" in frameworks:
+                deprecated_boards_file = os.path.join(
+                    self.get_dir(), "misc", "mbed_deprecated_boards.json")
+                if os.path.isfile(deprecated_boards_file):
+                    with open(deprecated_boards_file) as fp:
+                        if board in json.load(fp):
+                            self.packages["framework-mbed"]["version"] = "~6.51504.0"
+                self.packages["toolchain-gccarmnoneeabi"]["version"] = "~1.90201.0"
+
+            if "zephyr" in frameworks:
+                for p in self.packages:
+                    if p.startswith("framework-zephyr-") or p in (
+                        "tool-cmake",
+                        "tool-dtc",
+                        "tool-ninja",
+                    ):
+                        self.packages[p]["optional"] = False
                 self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
                 if "windows" not in get_systype():
                     self.packages['tool-gperf']['optional'] = False
@@ -37,7 +54,7 @@ class H09Platform(PlatformBase):
         if set(["bootloader", "erase"]) & set(targets):
             self.packages["tool-nrfjprog"]["optional"] = False
         elif (upload_protocol and upload_protocol != "nrfjprog"
-              and "tool-nrfjprog" in self.packages):
+                and "tool-nrfjprog" in self.packages):
             del self.packages["tool-nrfjprog"]
 
         # configure J-LINK tool
@@ -56,7 +73,7 @@ class H09Platform(PlatformBase):
             del self.packages[jlink_pkgname]
 
         return PlatformBase.configure_default_packages(self, variables,
-                                                       targets)
+                                                        targets)
 
     def get_boards(self, id_=None):
         result = PlatformBase.get_boards(self, id_)
@@ -101,10 +118,9 @@ class H09Platform(PlatformBase):
                             "-port", "2331"
                         ],
                         "executable": ("JLinkGDBServerCL.exe"
-                                       if system() == "Windows" else
-                                       "JLinkGDBServer")
-                    },
-                    "onboard": link in debug.get("onboard_tools", [])
+                                        if platform.system() == "Windows" else
+                                        "JLinkGDBServer")
+                    }
                 }
 
             else:
@@ -123,10 +139,12 @@ class H09Platform(PlatformBase):
                         "package": "tool-openocd",
                         "executable": "bin/openocd",
                         "arguments": server_args
-                    },
-                    "onboard": link in debug.get("onboard_tools", []),
-                    "default": link in debug.get("default_tools", [])
+                    }
                 }
+                server_args.extend(debug.get("openocd_extra_args", []))
+
+            debug['tools'][link]['onboard'] = link in debug.get("onboard_tools", [])
+            debug['tools'][link]['default'] = link in debug.get("default_tools", [])
 
         board.manifest['debug'] = debug
         return board

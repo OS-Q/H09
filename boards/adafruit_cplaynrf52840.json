@@ -1,5 +1,8 @@
 {
   "build": {
+    "arduino":{
+      "ldscript": "nrf52840_s140_v6.ld"
+    },
     "core": "nRF5",
     "cpu": "cortex-m4",
     "extra_flags": "-DARDUINO_NRF52840_CIRCUITPLAY -DNRF52840_XXAA -DNRF52840_CIRCUITPLAY",
@@ -23,7 +26,6 @@
       ]
     ],
     "usb_product": "Circuit Playground Bluefruit",
-    "ldscript": "nrf52840_s140_v6.ld",
     "mcu": "nrf52840",
     "variant": "circuitplayground_nrf52840",
     "bsp": {
@@ -44,7 +46,7 @@
   ],
   "debug": {
     "jlink_device": "nRF52840_xxAA",
-    "svd_path": "nrf52.svd"
+    "svd_path": "nrf52840.svd"
   },
   "frameworks": [
     "arduino"
@@ -53,15 +55,19 @@
   "upload": {
     "maximum_ram_size": 248832,
     "maximum_size": 815104,
-    "require_upload_port": true,
     "speed": 115200,
     "protocol": "nrfutil",
     "protocols": [
       "jlink",
       "nrfjprog",
       "nrfutil",
-      "stlink"
-    ]
+      "stlink",
+      "cmsis-dap",
+      "blackmagic"
+    ],
+    "use_1200bps_touch": true,
+    "require_upload_port": true,
+    "wait_for_upload_port": true
   },
   "url": "https://www.adafruit.com/product/4333",
   "vendor": "Adafruit"
