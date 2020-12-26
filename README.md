@@ -1,15 +1,9 @@
-﻿# [Platform H09](https://github.com/OS-Q/H09)
-
-[![Build status](https://ci.appveyor.com/api/projects/status/b1ubepm9pfei1dw3?svg=true)](https://ci.appveyor.com/project/Qitas/h09)
+﻿# [P09](https://github.com/OS-Q/P09)
 
 [![sites](http://182.61.61.133/link/resources/OSQ.png)](http://www.OS-Q.com)
 
-#### 关于系统架构：[OS-Q](https://github.com/OS-Q)
-#### 归属边缘体系：[EDGE-Q](https://github.com/EDGE-Q)
+### [简介](https://github.com/OS-Q/P09/wiki)
 
-### [Platform描述](https://github.com/OS-Q/H09/wiki) 
+[P09](https://github.com/OS-Q/P09) 基于[PlatformIO](https://github.com/platformio/platformio-core) 框架
 
-[Platform H09](https://github.com/OS-Q/H09)基于PlatformIO平台，用于[nRF52](https://github.com/sochub/nRF52)平台
-
-### [OS-Q = Open Solutions | Open Source |  Operating System ](http://www.OS-Q.com/H09)
-####  2019-8-26
+### [Q = (OpenSource & OperatingSystem) ](http://www.OS-Q.com)

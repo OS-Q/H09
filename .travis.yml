@@ -1,0 +1,29 @@
+language: python
+python:
+  - "3.7"
+
+env:
+  - PLATFORMIO_PROJECT_DIR=examples/arduino-blink
+  - PLATFORMIO_PROJECT_DIR=examples/arduino-ble-led
+  - PLATFORMIO_PROJECT_DIR=examples/aarduino-bluefruit-bleuart
+  - PLATFORMIO_PROJECT_DIR=examples/arduino-serial-plotter
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-ble-thermometer
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-blink
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-dsp
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-events
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-nfc
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-rtos
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-serial
+  - PLATFORMIO_PROJECT_DIR=examples/zephyr-ble-beacon
+  - PLATFORMIO_PROJECT_DIR=examples/zephyr-blink
+  - PLATFORMIO_PROJECT_DIR=examples/mzephyr-subsys-nvs
+
+install:
+  - pip install -U https://github.com/OS-Q/S03/archive/master.zip
+  - platformio platform install file://.
+
+script:
+  - platformio run -s -d $PLATFORMIO_PROJECT_DIR
+
+notifications:
+  email: false
