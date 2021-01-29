@@ -12,13 +12,7 @@ jobs:
         example:
           - "examples/arduino-blink"
           - "examples/arduino-ble-led"
-          - "examples/arduino-bluefruit-bleuart"
-          - "examples/arduino-nina-b1-generic-example"
-          - "examples/arduino-serial-plotter"
-          - "examples/mbed-rtos-ble-thermometer"
           - "examples/mbed-rtos-blink-baremetal"
-          - "examples/mbed-rtos-nfc"
-          - "examples/mbed-legacy-examples/mbed-nfc"
           - "examples/zephyr-blink"
 
     runs-on: ${{ matrix.os }}
