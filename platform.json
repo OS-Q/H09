@@ -1,6 +1,6 @@
 {
-  "name": "P09",
-  "title": "Platform 09",
+  "name": "P41",
+  "title": "Platform P41",
   "description": "The nRF52 Series are built for speed to carry out increasingly complex tasks in the shortest possible time and return to sleep, conserving precious battery power. They have a Cortex-M4F processor and are the most capable Bluetooth Smart SoCs on the market.",
   "homepage": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
   "license": "Apache-2.0",
@@ -25,7 +25,7 @@
       "script": "builder/frameworks/arduino.py"
     },
     "mbed": {
-      "package": "framework-mbed",
+      "package": "mbed",
       "script": "builder/frameworks/mbed.py"
     },
     "zephyr": {
@@ -40,12 +40,10 @@
       "version": ">=1.60301.0,<1.80000.0",
       "optionalVersions": ["~1.80201.0", "~1.90201.0"]
     },
-    "framework-mbed": {
+    "mbed": {
       "type": "framework",
       "optional": true,
-      "owner": "platformio",
-      "version": "~6.60600.0",
-      "optionalVersions": ["~6.51506.0"]
+      "version": "https://github.com/OS-Q/mbed.git"
     },
     "framework-arduinoadafruitnrf52": {
       "type": "framework",

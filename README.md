@@ -1,9 +1,21 @@
-﻿# [P09](http://www.OS-Q.com)
+﻿# [P41](http://www.OS-Q.com)
 
-[![sites](http://182.61.61.133/link/resources/OSQ.png)](http://www.OS-Q.com)
+[![Build Status](https://github.com/OS-Q/P41/workflows/P41/badge.svg)](https://github.com/OS-Q/P41/actions)
+[![Build Status](https://travis-ci.com/OS-Q/P41.svg?branch=master)](https://travis-ci.com/OS-Q/P41)
+[![Build status](https://ci.appveyor.com/api/projects/status/nvc1gpqjxdp6bm0q?svg=true)](https://ci.appveyor.com/project/Qitas/p41)
 
-### [简介](https://github.com/OS-Q/P09/wiki)
 
-[P09](https://github.com/OS-Q/P09) 基于[PlatformIO](https://github.com/platformio/platformio-core) 框架
+### [简介](https://github.com/OS-Q/P41/wiki)
+
+[P41](https://github.com/OS-Q/P41) 适用于 [nRF52](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/Bluetooth-low-energy) 平台开发
+
+#### 关联资源仓库
+
+* [A41](https://github.com/OS-Q/A41)
+* [N41](https://github.com/OS-Q/N41)
+* [B41](https://github.com/OS-Q/B41)
+* [T41](https://github.com/OS-Q/T41)
+
+
 
 ### [Q = (OpenSource & OperatingSystem) ](http://www.OS-Q.com)
