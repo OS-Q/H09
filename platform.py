@@ -31,7 +31,7 @@ class P41Platform(PlatformBase):
                 if os.path.isfile(deprecated_boards_file):
                     with open(deprecated_boards_file) as fp:
                         if board in json.load(fp):
-                            self.packages["framework-mbed"]["version"] = "~6.51506.0"
+                            self.packages["mbed"]["version"] = "~6.51506.0"
                 self.packages["toolchain-gccarmnoneeabi"]["version"] = "~1.90201.0"
 
             if "zephyr" in frameworks:
@@ -73,7 +73,7 @@ class P41Platform(PlatformBase):
             del self.packages[jlink_pkgname]
 
         return PlatformBase.configure_default_packages(self, variables,
-                                                       targets)
+                                                        targets)
 
     def get_boards(self, id_=None):
         result = PlatformBase.get_boards(self, id_)
@@ -118,8 +118,8 @@ class P41Platform(PlatformBase):
                             "-port", "2331"
                         ],
                         "executable": ("JLinkGDBServerCL.exe"
-                                       if platform.system() == "Windows" else
-                                       "JLinkGDBServer")
+                                        if platform.system() == "Windows" else
+                                        "JLinkGDBServer")
                     }
                 }
 
