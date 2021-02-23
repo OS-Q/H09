@@ -17,14 +17,14 @@ jobs:
           - "examples/mbed-rtos-nfc"
           - "examples/mbed-rtos-blink-baremetal"
           - "examples/zephyr-blink"
-        name:
-          - "arduino_blink"
-          - "arduino_ble_led"
-          - "arduino_serial_plotter"
-          - "arduino_bluefruit_bleuart"
-          - "mbed_rtos_nfc"
-          - "mbed_rtos_blink_baremetal"
-          - "zephyr_blink"
+        # name:
+        #   - "arduino_blink"
+        #   - "arduino_ble_led"
+        #   - "arduino_serial_plotter"
+        #   - "arduino_bluefruit_bleuart"
+        #   - "mbed_rtos_nfc"
+        #   - "mbed_rtos_blink_baremetal"
+        #   - "zephyr_blink"
 
     steps:
       - uses: actions/checkout@v2
@@ -48,12 +48,12 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.name }}
+          name: firmware
           path: ${{ matrix.examples }}/build
 
       - name: Create Release Asset
         if: ${{ github.event_name == 'release' }}
-        run: zip -jr ${{ matrix.name }}-${{ github.event.release.tag_name }}.zip ${{ matrix.examples }}/build
+        run: zip -jr firmware-${{ github.event.release.tag_name }}.zip ${{ matrix.examples }}/build
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -62,6 +62,6 @@ jobs:
         if: ${{ github.event_name == 'release' }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ${{ matrix.name }}-${{ github.event.release.tag_name }}.zip
-          asset_name: ${{ matrix.name }}-${{ github.event.release.tag_name }}.zip
+          asset_path: firmware-${{ github.event.release.tag_name }}.zip
+          asset_name: firmware-${{ github.event.release.tag_name }}.zip
           asset_content_type: application/zip
