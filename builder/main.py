@@ -46,7 +46,7 @@ if use_adafruit:
 
     os_platform = sys.platform
     if os_platform == "win32":
-        nrfutil_path = join(FRAMEWORK_DIR, "tools", "adafruit-nrfutil", os_platform, "adafruit-nrfutil.exe")
+        nrfutil_path = join(FRAMEWORK_DIR, "tools", "adafruit-nrfutil", "win32", "adafruit-nrfutil.exe")
     elif os_platform == "darwin":
         nrfutil_path = join(FRAMEWORK_DIR, "tools", "adafruit-nrfutil", "macos", "adafruit-nrfutil")
     else:
