@@ -40,7 +40,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.examples }}
+          name: firmware
           path: ${{ matrix.examples }}
 
       - name: Create Release Asset
