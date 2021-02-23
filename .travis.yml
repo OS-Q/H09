@@ -5,6 +5,8 @@ python:
 env:
   - PLATFORMIO_PROJECT_DIR=examples/arduino-blink
   - PLATFORMIO_PROJECT_DIR=examples/arduino-ble-led
+  - PLATFORMIO_PROJECT_DIR=examples/arduino-serial-plotter
+  - PLATFORMIO_PROJECT_DIR=examples/arduino-bluefruit-bleuart
   - PLATFORMIO_PROJECT_DIR=examples/mbed-rtos-blink-baremetal
   - PLATFORMIO_PROJECT_DIR=examples/zephyr-blink
 

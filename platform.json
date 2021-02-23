@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/platformio/platform-nordicnrf52.git"
+    "url": "https://github.com/OS-Q/P41.git"
   },
   "frameworks": {
     "arduino": {
@@ -49,11 +49,10 @@
       "optional": true,
       "version": "https://github.com/OS-Q/A41B.git"
     },
-    "framework-arduino-nrf52-mbedos": {
+    "A41A": {
       "type": "framework",
       "optional": true,
-      "owner": "platformio",
-      "version": "~1.3.0"
+      "version": "https://github.com/OS-Q/A41A.git"
     },
     "framework-zephyr": {
       "type": "framework",

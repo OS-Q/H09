@@ -12,6 +12,8 @@ jobs:
         example:
           - "examples/arduino-blink"
           - "examples/arduino-ble-led"
+          - "examples/arduino-serial-plotter"
+          - "examples/arduino-bluefruit-bleuart"
           - "examples/mbed-rtos-nfc"
           - "examples/mbed-rtos-blink-baremetal"
           - "examples/zephyr-blink"

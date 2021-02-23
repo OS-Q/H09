@@ -27,7 +27,7 @@ env = DefaultEnvironment()
 platform = env.PioPlatform()
 board = env.BoardConfig()
 
-FRAMEWORK_DIR = platform.get_package_dir("framework-arduino-nrf52-mbedos")
+FRAMEWORK_DIR = platform.get_package_dir("A41A")
 assert isdir(FRAMEWORK_DIR)
 
 

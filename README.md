@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.com/OS-Q/P41.svg?branch=master)](https://travis-ci.com/OS-Q/P41)
 [![Build status](https://ci.appveyor.com/api/projects/status/nvc1gpqjxdp6bm0q?svg=true)](https://ci.appveyor.com/project/Qitas/p41)
 
-
 ### [简介](https://github.com/OS-Q/P41/wiki)
 
 [P41](https://github.com/OS-Q/P41) 适用于 [nRF52](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/Bluetooth-low-energy) 平台开发

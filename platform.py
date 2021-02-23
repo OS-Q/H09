@@ -46,7 +46,7 @@ class P41Platform(PlatformBase):
 
             if board == "nano33ble":
                 self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
-                self.frameworks['arduino']['package'] = "framework-arduino-nrf52-mbedos"
+                self.frameworks['arduino']['package'] = "A41A"
                 self.frameworks['arduino']['script'] = "builder/frameworks/arduino/nrf52-mbedos.py"
 
         if set(["bootloader", "erase"]) & set(targets):
