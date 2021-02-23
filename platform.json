@@ -21,7 +21,7 @@
   },
   "frameworks": {
     "arduino": {
-      "package": "framework-arduinonordicnrf5",
+      "package": "A41B",
       "script": "builder/frameworks/arduino.py"
     },
     "mbed": {
@@ -44,11 +44,10 @@
       "optional": true,
       "version": "https://github.com/OS-Q/A41.git"
     },
-    "framework-arduinonordicnrf5": {
+    "A41B": {
       "type": "framework",
       "optional": true,
-      "owner": "platformio",
-      "version": "~1.700.0"
+      "version": "https://github.com/OS-Q/A41B.git"
     },
     "framework-arduino-nrf52-mbedos": {
       "type": "framework",
