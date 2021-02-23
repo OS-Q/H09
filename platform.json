@@ -4,6 +4,7 @@
   "description": "The nRF52 Series are built for speed to carry out increasingly complex tasks in the shortest possible time and return to sleep, conserving precious battery power. They have a Cortex-M4F processor and are the most capable Bluetooth Smart SoCs on the market.",
   "homepage": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
   "license": "Apache-2.0",
+  "version": "6.0.0",
   "engines": {
     "platformio": "^5"
   },
@@ -14,12 +15,10 @@
       "Nordic Semiconductor",
       "nRF52"
   ],
-
   "repository": {
     "type": "git",
     "url": "https://github.com/platformio/platform-nordicnrf52.git"
   },
-  "version": "6.0.0",
   "frameworks": {
     "arduino": {
       "package": "framework-arduinonordicnrf5",
@@ -35,12 +34,6 @@
     }
   },
   "packages": {
-    "toolchain-gccarmnoneeabi": {
-      "type": "toolchain",
-      "owner": "platformio",
-      "version": ">=1.60301.0,<1.80000.0",
-      "optionalVersions": ["~1.80201.0", "~1.90201.0"]
-    },
     "mbed": {
       "type": "framework",
       "optional": true,
@@ -69,6 +62,10 @@
       "optional": true,
       "version": "https://github.com/OS-Q/zephyr.git"
     },
+    "framework-zephyr-hal-nordic": {
+      "optional": true,
+      "version": "https://github.com/OS-Q/F41.git"
+    },
     "framework-zephyr-cmsis": {
       "optional": true,
       "owner": "platformio",
@@ -88,10 +85,6 @@
       "optional": true,
       "owner": "platformio",
       "version": "0.0.0-alpha+sha.13697783bf"
-    },
-    "framework-zephyr-hal-nordic": {
-      "optional": true,
-      "version": "https://github.com/OS-Q/F09.git"
     },
     "framework-zephyr-hal-st": {
       "optional": true,
@@ -167,6 +160,12 @@
       "optional": true,
       "owner": "platformio",
       "version": "0.0.0-alpha+sha.143df67555"
+    },
+    "toolchain-gccarmnoneeabi": {
+      "type": "toolchain",
+      "owner": "platformio",
+      "version": ">=1.60301.0,<1.80000.0",
+      "optionalVersions": ["~1.80201.0", "~1.90201.0"]
     },
     "tool-sreccat": {
       "owner": "platformio",
