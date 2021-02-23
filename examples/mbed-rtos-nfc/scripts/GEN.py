@@ -3,7 +3,10 @@ import shutil
 import os
 
 def after_build(source, target, env):
-	shutil.copy(firmware_source, './firmware.hex')
+	isExists=os.path.exists('build')
+	if not isExists:
+		os.mkdir('build')
+	shutil.copy(firmware_source, 'build/firmware.hex')
 
 env.AddPostAction("buildprog", after_build)
 

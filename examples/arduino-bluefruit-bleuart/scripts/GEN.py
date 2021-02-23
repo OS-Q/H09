@@ -3,7 +3,10 @@ import shutil
 import os
 
 def after_build(source, target, env):
-	shutil.copy(firmware_source, './firmware.bin')
+	isExists=os.path.exists('build')
+	if not isExists:
+		os.mkdir('build')
+	shutil.copy(firmware_source, 'build/nrf52840_dk_adafruit.bin')
 
 env.AddPostAction("buildprog", after_build)
 
