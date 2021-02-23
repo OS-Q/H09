@@ -38,7 +38,7 @@
       "sd_fwid": "0x00B7"
     },
     "zephyr": {
-       "variant": "nrf52_adafruit_feather"
+      "variant": "nrf52_adafruit_feather"
     }
   },
   "connectivity": [

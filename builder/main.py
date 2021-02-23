@@ -42,7 +42,7 @@ variant = board.get("build.variant", "")
 use_adafruit = board.get(
     "build.bsp.name", "nrf5") == "adafruit" and "arduino" in env.get("PIOFRAMEWORK", [])
 if use_adafruit:
-    FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoadafruitnrf52")
+    FRAMEWORK_DIR = platform.get_package_dir("A41")
 
     os_platform = sys.platform
     if os_platform == "win32":

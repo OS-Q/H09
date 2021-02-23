@@ -39,11 +39,10 @@
       "optional": true,
       "version": "https://github.com/OS-Q/mbed.git"
     },
-    "framework-arduinoadafruitnrf52": {
+    "A41": {
       "type": "framework",
       "optional": true,
-      "owner": "platformio",
-      "version": "~1.2100.0"
+      "version": "https://github.com/OS-Q/A41.git"
     },
     "framework-arduinonordicnrf5": {
       "type": "framework",
