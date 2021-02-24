@@ -59,7 +59,7 @@
       "optional": true,
       "version": "https://github.com/OS-Q/zephyr.git"
     },
-    "zephyr-hal": {
+    "zephyr-hal-nordic": {
       "optional": true,
       "version": "https://github.com/OS-Q/F41Z.git"
     },
@@ -70,7 +70,7 @@
     "toolchain-gccarmnoneeabi": {
       "type": "toolchain",
       "owner": "platformio",
-      "version": ">=1.60301.0,<1.80000.0",
+      "version": "~1.90201.0",
       "optionalVersions": ["~1.80201.0", "~1.90201.0"]
     },
     "tool-sreccat": {
