@@ -167,7 +167,7 @@ if not env.get("PIOFRAMEWORK"):
 if "zephyr" in env.get("PIOFRAMEWORK", []):
     env.SConscript(
         join(platform.get_package_dir(
-            "framework-zephyr"), "scripts", "platformio", "platformio-build-pre.py"),
+            "zephyr"), "scripts", "platformio", "platformio-build-pre.py"),
         exports={"env": env}
     )
 

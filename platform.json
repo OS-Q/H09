@@ -29,7 +29,7 @@
       "script": "builder/frameworks/mbed.py"
     },
     "zephyr": {
-      "package": "framework-zephyr",
+      "package": "zephyr",
       "script": "builder/frameworks/zephyr.py"
     }
   },
@@ -54,12 +54,12 @@
       "optional": true,
       "version": "https://github.com/OS-Q/A41A.git"
     },
-    "framework-zephyr": {
+    "zephyr": {
       "type": "framework",
       "optional": true,
       "version": "https://github.com/OS-Q/zephyr.git"
     },
-    "framework-zephyr-hal-nordic": {
+    "zephyr-hal": {
       "optional": true,
       "version": "https://github.com/OS-Q/F41.git"
     },

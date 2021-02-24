@@ -34,7 +34,7 @@ class P41Platform(PlatformBase):
 
             if "zephyr" in frameworks:
                 for p in self.packages:
-                    if p.startswith("framework-zephyr-") or p in (
+                    if p.startswith("framework-zephyr-") or p.startswith("zephyr-") or p in (
                         "tool-cmake",
                         "tool-dtc",
                         "tool-ninja",
