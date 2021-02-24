@@ -103,25 +103,10 @@
       "owner": "platformio",
       "version": "0.0.0-alpha+sha.5051f9d900"
     },
-    "zephyr-open-amp": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.724f7e2a45"
-    },
-    "zephyr-loramac-node": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.3f545d76a2"
-    },
     "zephyr-openthread": {
       "optional": true,
       "owner": "platformio",
       "version": "0.0.0-alpha+sha.07f430dac6"
-    },
-    "zephyr-segger": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.874d9e9696"
     },
     "zephyr-tinycbor": {
       "optional": true,
