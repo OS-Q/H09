@@ -76,6 +76,36 @@
       "optional": true,
       "version": "https://github.com/OS-Q/zephyr-trusted-firmware-m.git"
     },
+    "framework-zephyr-cmsis": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.542b2296e6"
+    },
+    "framework-zephyr-canopennode": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.468d350028"
+    },
+    "framework-zephyr-civetweb": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.99129c5efc"
+    },
+    "framework-zephyr-fatfs": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.13697783bf"
+    },
+    "framework-zephyr-hal-nordic": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.d8a6ea9695"
+    },
+    "framework-zephyr-hal-st": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.5b3ec3e182"
+    },
     "framework-zephyr-libmetal": {
       "optional": true,
       "owner": "platformio",
@@ -141,20 +171,10 @@
       "owner": "platformio",
       "version": "0.0.0-alpha+sha.957d46bc3c"
     },
-    "framework-zephyr-canopennode": {
+    "framework-zephyr-trusted-firmware-m": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.468d350028"
-    },
-    "framework-zephyr-civetweb": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.99129c5efc"
-    },
-    "framework-zephyr-fatfs": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.13697783bf"
+      "version": "0.0.0-alpha+sha.143df67555"
     },
     "toolchain-gccarmnoneeabi": {
       "type": "toolchain",
