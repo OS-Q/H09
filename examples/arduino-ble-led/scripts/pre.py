@@ -3,5 +3,5 @@ import shutil
 import os
 
 # print(env.Dump())
-print("PRE")
+print("pre script")
 

@@ -6,7 +6,7 @@ def after_build(source, target, env):
 	isExists=os.path.exists('build')
 	if not isExists:
 		os.mkdir('build')
-	shutil.copy(firmware_source, 'build/nrf52_dk.hex')
+	shutil.copy(firmware_source, 'build/mbed_rtos_blink_baremetal.hex')
 
 env.AddPostAction("buildprog", after_build)
 
