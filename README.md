@@ -21,7 +21,7 @@
 #### 相关资源
 
 * Arduino Core : [A41](https://github.com/OS-Q/A41)/[A41A](https://github.com/OS-Q/A41A)/[A41B](https://github.com/OS-Q/A41B)
-* zephyr Core : [F41](https://github.com/OS-Q/F41)
+* zephyr Core : [F41Z](https://github.com/OS-Q/F41Z)
 * [N41](https://github.com/OS-Q/N41)
 * [B41](https://github.com/OS-Q/B41)
 * [T41](https://github.com/OS-Q/T41)

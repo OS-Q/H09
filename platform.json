@@ -61,7 +61,7 @@
     },
     "zephyr-hal": {
       "optional": true,
-      "version": "https://github.com/OS-Q/F41.git"
+      "version": "https://github.com/OS-Q/F41Z.git"
     },
     "zephyr-cmsis": {
       "optional": true,
