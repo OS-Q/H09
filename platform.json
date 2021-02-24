@@ -65,73 +65,7 @@
     },
     "zephyr-cmsis": {
       "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.542b2296e6"
-    },
-    "zephyr-civetweb": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.99129c5efc"
-    },
-    "zephyr-fatfs": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.13697783bf"
-    },
-    "zephyr-libmetal": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.0b23894a04"
-    },
-    "zephyr-lvgl": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.928b61c7c8"
-    },
-    "zephyr-mbedtls": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.aef137b1af"
-    },
-    "zephyr-mcuboot": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.a5d79cf8cc"
-    },
-    "zephyr-mcumgr": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.5051f9d900"
-    },
-    "zephyr-openthread": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.07f430dac6"
-    },
-    "zephyr-tinycbor": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.40daca97b4"
-    },
-    "zephyr-tinycrypt": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.3e9a49d267"
-    },
-    "zephyr-littlefs": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.9e4498d1c7"
-    },
-    "zephyr-mipi-sys-t": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.957d46bc3c"
-    },
-    "zephyr-trusted-firmware-m": {
-      "optional": true,
-      "owner": "platformio",
-      "version": "0.0.0-alpha+sha.143df67555"
+      "version": "https://github.com/OS-Q/zephyr-cmsis.git"
     },
     "toolchain-gccarmnoneeabi": {
       "type": "toolchain",
