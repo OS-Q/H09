@@ -67,6 +67,10 @@
       "optional": true,
       "version": "https://github.com/OS-Q/zephyr-cmsis.git"
     },
+    "zephyr-trusted-firmware-m": {
+      "optional": true,
+      "version": "https://github.com/OS-Q/zephyr-trusted-firmware-m.git"
+    },
     "toolchain-gccarmnoneeabi": {
       "type": "toolchain",
       "owner": "platformio",
