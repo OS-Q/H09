@@ -11,10 +11,9 @@ jobs:
         python-version: [3.7]
         examples:
           - "examples/arduino-blink"
-          - "examples/arduino-A41"
-          - "examples/arduino-A41A"
-          - "examples/arduino-A41B"
           - "examples/zephyr-blink"
+          - "examples/arduino-uart"
+          - "examples/arduino-led"
 
     steps:
       - uses: actions/checkout@v2

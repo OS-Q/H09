@@ -12,9 +12,8 @@ jobs:
         examples:
           - "examples/arduino-blink"
           - "examples/zephyr-blink"
-          - "examples/arduino-A41"
-          - "examples/arduino-A41A"
-          - "examples/arduino-A41B"
+          - "examples/arduino-uart"
+          - "examples/arduino-led"
 
     steps:
       - uses: actions/checkout@v2
@@ -38,5 +37,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: P41-build
+          name: ubuntu-build-P41
           path: ${{ matrix.examples }}/build

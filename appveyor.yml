@@ -3,9 +3,8 @@ environment:
 
   matrix:
     - PLATFORMIO_PROJECT_DIR: "examples/arduino-blink"
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino-A41"
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino-A41A"
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino-A41B"
+    - PLATFORMIO_PROJECT_DIR: "examples/arduino-uart"
+    - PLATFORMIO_PROJECT_DIR: "examples/arduino-led"
     - PLATFORMIO_PROJECT_DIR: "examples/zephyr-blink"
 
 
