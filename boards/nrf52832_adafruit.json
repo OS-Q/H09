@@ -38,27 +38,34 @@
       "sd_fwid": "0x00B7"
     },
     "zephyr": {
-      "variant": "nrf52_adafruit_feather"
+      "variant": "nrf52_pca10040"
     }
   },
   "connectivity": [
     "bluetooth"
   ],
   "debug": {
+    "default_tools": [
+      "jlink"
+    ],
     "jlink_device": "nRF52832_xxAA",
+    "onboard_tools": [
+      "cmsis-dap",
+      "jlink"
+    ],
     "svd_path": "nrf52.svd"
   },
   "frameworks": [
     "arduino",
     "zephyr"
   ],
-  "name": "Adafruit Bluefruit nRF52832 Feather",
+  "name": "Adafruit Bluefruit nRF52832",
   "upload": {
     "maximum_ram_size": 65536,
     "maximum_size": 524288,
     "require_upload_port": true,
     "speed": 115200,
-    "protocol": "nrfutil",
+    "protocol": "jlink",
     "protocols": [
       "jlink",
       "nrfjprog",
