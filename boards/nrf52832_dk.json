@@ -19,7 +19,7 @@
   ],
   "debug": {
     "default_tools": [
-      "cmsis-dap"
+      "jlink"
     ],
     "jlink_device": "nRF52832_xxAA",
     "onboard_tools": [
@@ -37,7 +37,7 @@
   "upload": {
     "maximum_ram_size": 65536,
     "maximum_size": 524288,
-    "protocol": "cmsis-dap",
+    "protocol": "jlink",
     "protocols": [
       "jlink",
       "nrfjprog",

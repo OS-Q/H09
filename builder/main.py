@@ -109,7 +109,7 @@ env.Append(
         MergeHex=Builder(
             action=env.VerboseAction(" ".join([
                 join(platform.get_package_dir("tool-sreccat") or "",
-                     "srec_cat"),
+                    "srec_cat"),
                 "$SOFTDEVICEHEX",
                 "-intel",
                 "$SOURCES",

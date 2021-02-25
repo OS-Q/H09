@@ -27,7 +27,7 @@
     ],
     "usb_product": "NRF52 DK",
     "mcu": "nrf52840",
-    "variant": "nrf52840_qio",
+    "variant": "nrf52840_feather",
     "bsp": {
       "name": "adafruit"
     },
@@ -51,7 +51,7 @@
   "debug": {
     "jlink_device": "nRF52840_xxAA",
     "onboard_tools": [
-      "cmsis-dap"
+      "jlink"
     ],
     "svd_path": "nrf52840.svd"
   },
@@ -65,7 +65,7 @@
     "maximum_size": 815104,
     "require_upload_port": true,
     "speed": 115200,
-    "protocol": "cmsis-dap",
+    "protocol": "jlink",
     "protocols": [
       "jlink",
       "nrfjprog",
