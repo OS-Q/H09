@@ -8,7 +8,7 @@
 
 ### [简介](https://github.com/OS-Q/P41/wiki)
 
-[P41](https://github.com/OS-Q/P41) 用于 [nRF52](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/Bluetooth-low-energy) 平台，定位移动端交互平台，用于和移动设备进行BLE/NFC数据交互的直连。
+[P41](https://github.com/OS-Q/P41) 用于 [nRF52](https://www.nordicsemi.com/Products/Low-power-short-range-wireless/Bluetooth-low-energy) 平台，BLE设备交互，和移动设备进行BLE/NFC数据交互的直连。
 
 
 #### 相关特性
@@ -20,9 +20,8 @@
 
 #### 相关资源
 
-* Arduino Core : [A41](https://github.com/OS-Q/A41)/[A41A](https://github.com/OS-Q/A41A)/[A41B](https://github.com/OS-Q/A41B)
+* Arduino Core : [A41](https://github.com/OS-Q/A41)
 * zephyr Core : [F41Z](https://github.com/OS-Q/F41Z)
-* [N41](https://github.com/OS-Q/N41)
 * [B41](https://github.com/OS-Q/B41)
 * [T41](https://github.com/OS-Q/T41)
 
