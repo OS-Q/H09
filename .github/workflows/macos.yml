@@ -14,10 +14,7 @@ jobs:
           - "examples/arduino-A41"
           - "examples/arduino-A41A"
           - "examples/arduino-A41B"
-          - "examples/mbed-rtos-nfc"
-          - "examples/mbed-rtos-blink-baremetal"
           - "examples/zephyr-blink"
-
 
     steps:
       - uses: actions/checkout@v2

@@ -7,7 +7,6 @@ env:
   - PLATFORMIO_PROJECT_DIR=examples/arduino-A41A
   - PLATFORMIO_PROJECT_DIR=examples/arduino-A41B
   - PLATFORMIO_PROJECT_DIR=examples/arduino-A41
-  - PLATFORMIO_PROJECT_DIR=examples/mbed-rtos-blink-baremetal
   - PLATFORMIO_PROJECT_DIR=examples/zephyr-blink
 
 install:
