@@ -12,7 +12,6 @@ jobs:
         examples:
           - "examples/arduino-blink"
           - "examples/zephyr-blink"
-          - "examples/arduino-uart"
           - "examples/arduino-led"
 
     steps:
