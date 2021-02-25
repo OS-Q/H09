@@ -386,7 +386,7 @@ elif upload_protocol in debug_tools:
     ])
     openocd_args = [
         f.replace("$PACKAGE_DIR",
-                  platform.get_package_dir("tool-openocd") or "")
+                platform.get_package_dir("tool-openocd") or "")
         for f in openocd_args
     ]
     env.Replace(
@@ -418,7 +418,7 @@ env.AddPlatformTarget(
 
 if any("-Wl,-T" in f for f in env.get("LINKFLAGS", [])):
     print("Warning! '-Wl,-T' option for specifying linker scripts is deprecated. "
-          "Please use 'board_build.ldscript' option in your 'platformio.ini' file.")
+        "Please use 'board_build.ldscript' option in your 'platformio.ini' file.")
 
 #
 # Default targets

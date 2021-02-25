@@ -146,9 +146,9 @@ if softdevice_name:
     env.Append(
         CPPPATH=[
             join(NORDIC_DIR, "softdevice",
-                 "%s_nrf52_%s_API" % (softdevice_name, softdevice_version), "include"),
+                "%s_nrf52_%s_API" % (softdevice_name, softdevice_version), "include"),
             join(NORDIC_DIR, "softdevice",
-                 "%s_nrf52_%s_API" % (softdevice_name, softdevice_version), "include", "nrf52")
+                "%s_nrf52_%s_API" % (softdevice_name, softdevice_version), "include", "nrf52")
         ],
         CPPDEFINES=[
             softdevice_name.upper(),
@@ -173,7 +173,7 @@ if softdevice_name:
             env.Replace(LDSCRIPT_PATH=ldscript_name)
         else:
             print("Warning! Cannot find an appropriate linker script for the "
-                  "required softdevice!")
+                "required softdevice!")
 
 freertos_path = join(CORE_DIR, "freertos")
 if isdir(freertos_path):
