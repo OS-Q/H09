@@ -11,9 +11,9 @@ jobs:
         python-version: [3.7]
         examples:
           - "examples/arduino-blink"
-          - "examples/arduino-ble-led"
-          - "examples/arduino-serial-plotter"
-          - "examples/arduino-bluefruit-bleuart"
+          - "examples/arduino-A41"
+          - "examples/arduino-A41A"
+          - "examples/arduino-A41B"
           - "examples/mbed-rtos-nfc"
           - "examples/mbed-rtos-blink-baremetal"
           - "examples/zephyr-blink"

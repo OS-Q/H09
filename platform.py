@@ -23,6 +23,11 @@ class P41Platform(PlatformBase):
             if self.board_config(board).get("build.bsp.name","nrf5") == "adafruit":
                 self.frameworks['arduino']['package'] = "A41"
 
+            if board == "nano33ble":
+                self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
+                self.frameworks['arduino']['package'] = "A41A"
+                self.frameworks['arduino']['script'] = "builder/frameworks/arduino/nrf52-mbedos.py"
+
             if "mbed" in frameworks:
                 deprecated_boards_file = os.path.join(
                     self.get_dir(), "misc", "mbed_deprecated_boards.json")
@@ -43,11 +48,6 @@ class P41Platform(PlatformBase):
                 self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
                 if "windows" not in get_systype():
                     self.packages['tool-gperf']['optional'] = False
-
-            if board == "nano33ble":
-                self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
-                self.frameworks['arduino']['package'] = "A41A"
-                self.frameworks['arduino']['script'] = "builder/frameworks/arduino/nrf52-mbedos.py"
 
         if set(["bootloader", "erase"]) & set(targets):
             self.packages["tool-nrfjprog"]["optional"] = False

@@ -42,7 +42,7 @@
   "frameworks": [
     "arduino"
   ],
-  "name": "Nordic nRF52840-DK (Adafruit BSP)",
+  "name": "Nordic nRF52840-DK (Adafruit)",
   "upload": {
     "maximum_ram_size": 248832,
     "maximum_size": 815104,
