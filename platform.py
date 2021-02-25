@@ -23,7 +23,8 @@ class P41Platform(PlatformBase):
             if self.board_config(board).get("build.bsp.name","nrf5") == "adafruit":
                 self.frameworks['arduino']['package'] = "A41"
 
-            if board == "nano33ble":
+            if self.board_config(board).get("build.bsp.name","nrf5") == "mbedos":
+            # if board == "nano33ble":
                 self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
                 self.frameworks['arduino']['package'] = "A41A"
                 self.frameworks['arduino']['script'] = "builder/frameworks/arduino/nrf52-mbedos.py"

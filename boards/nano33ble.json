@@ -18,6 +18,9 @@
       ]
     ],
     "mcu": "nrf52840",
+    "bsp": {
+      "name": "mbedos"
+    },
     "variant": "ARDUINO_NANO33BLE"
   },
   "connectivity": [
