@@ -30,7 +30,6 @@
   "frameworks": [
     "arduino",
     "mbed",
-    "mbed5",
     "zephyr"
   ],
   "name": "Nordic nRF52-DK",
