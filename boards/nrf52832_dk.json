@@ -33,7 +33,7 @@
     "mbed",
     "zephyr"
   ],
-  "name": "Nordic nRF52832-DK",
+  "name": "nRF52832-DK",
   "upload": {
     "maximum_ram_size": 65536,
     "maximum_size": 524288,

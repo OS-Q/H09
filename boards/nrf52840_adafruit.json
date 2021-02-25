@@ -5,7 +5,7 @@
     },
     "core": "nRF5",
     "cpu": "cortex-m4",
-    "extra_flags": "-DARDUINO_NRF52840_PCA10056 -DNRF52840_XXAA",
+    "extra_flags": "-DARDUINO_NRF52840_FEATHER -DNRF52840_XXAA",
     "f_cpu": "64000000L",
     "hwids": [
       [
@@ -27,9 +27,12 @@
     ],
     "usb_product": "NRF52 DK",
     "mcu": "nrf52840",
-    "variant": "pca10056",
+    "variant": "nrf52840_qio",
     "bsp": {
       "name": "adafruit"
+    },
+    "zephyr": {
+      "variant": "nrf52840dk_nrf52840"
     },
     "softdevice": {
       "sd_flags": "-DS140",
@@ -53,9 +56,10 @@
     "svd_path": "nrf52840.svd"
   },
   "frameworks": [
-    "arduino"
+    "arduino",
+    "zephyr"
   ],
-  "name": "Adafruit nRF52840-DK",
+  "name": "nRF52840-Adafruit",
   "upload": {
     "maximum_ram_size": 248832,
     "maximum_size": 815104,
@@ -65,6 +69,7 @@
     "protocols": [
       "jlink",
       "nrfjprog",
+      "nrfutil",
       "stlink",
       "cmsis-dap",
       "blackmagic"

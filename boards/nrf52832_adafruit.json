@@ -27,7 +27,7 @@
     ],
     "usb_product": "NRF52 DK",
     "mcu": "nrf52832",
-    "variant": "nrf52832_feather",
+    "variant": "nrf52832_qio",
     "bsp": {
       "name": "adafruit"
     },
@@ -60,7 +60,7 @@
     "arduino",
     "zephyr"
   ],
-  "name": "Adafruit nRF52832",
+  "name": "nRF52832-Adafruit",
   "upload": {
     "maximum_ram_size": 65536,
     "maximum_size": 524288,
