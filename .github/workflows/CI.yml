@@ -32,7 +32,6 @@ jobs:
         force_language: c
         force: enable
         max_ctu_depth: 2
-        # platform: disable
         std: c11
         output_file: ./codecheck.txt
         other_options: --bug-hunting --verbose --std=c11
@@ -54,10 +53,17 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - "arduino-ble-led"
           - "arduino-blink"
+          - "arduino-ble-led"
+          - "arduino-serial-plotter"
+          - "arduino-bluefruit-bleuart"
+          - "arduino-nina-b1-generic-example"
+          - "mbed-rtos-ble-thermometer"
+          - "mbed-rtos-blink-baremetal"
           - "mbed-rtos-nfc"
-          - "zephyr-blink"
+          - "mbed-ble-thermometer"
+          - "mbed-nfc"
+          - "mbed-rtos"
 
         os: [ubuntu-latest, windows-latest, macos-latest]
 

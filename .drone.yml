@@ -20,6 +20,8 @@ steps:
   - git submodule update --init --recursive
   - pip install -U https://github.com/platformio/platformio/archive/develop.zip
   - pio platform install file://.
-  - pio run -d examples/zephyr-blink
   - pio run -d examples/arduino-blink
   - pio run -d examples/arduino-ble-led
+  - pio run -d examples/arduino-serial-plotter
+  - pio run -d examples/arduino-bluefruit-bleuart
+  - pio run -d examples/arduino-nina-b1-generic-example
