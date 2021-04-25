@@ -20,8 +20,8 @@ jobs:
           command: |
             pio run -d examples/arduino-ble-led
             pio run -d examples/arduino-blink
-            pio run -d examples/zephyr-blink
-
+            pio run -d examples/mbed-rtos-nfc
+            pio run -d examples/mbed-rtos
 
 workflows:
     version: 2
