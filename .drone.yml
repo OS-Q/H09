@@ -2,15 +2,19 @@ kind: pipeline
 name: OSQ
 
 steps:
-# - name: QIO
-#   image: python:3
-#   commands:
-#   - apt update
-#   - apt install -y git
-#   - git submodule update --init --recursive
-#   - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-#   - qio platform install file://.
-#   - qio run -d examples/spl-blink
+- name: QIO
+  image: python:3
+  commands:
+  - apt update
+  - apt install -y git
+  - git submodule update --init --recursive
+  - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+  - qio platform install file://.
+  - pio run -d examples/arduino-blink
+  - pio run -d examples/arduino-ble-led
+  - pio run -d examples/arduino-serial-plotter
+  - pio run -d examples/arduino-bluefruit-bleuart
+  - pio run -d examples/arduino-nina-b1-generic-example
 
 - name: PIO
   image: python:3
