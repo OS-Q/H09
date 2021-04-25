@@ -1,10 +1,24 @@
+# Copyright 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import sys
 from platform import system
 from os import makedirs
 from os.path import isdir, join, basename
 
 from SCons.Script import (ARGUMENTS, COMMAND_LINE_TARGETS, AlwaysBuild,
-                            Builder, Default, DefaultEnvironment)
+                          Builder, Default, DefaultEnvironment)
 
 from platformio.util import get_serial_ports
 
@@ -42,11 +56,11 @@ variant = board.get("build.variant", "")
 use_adafruit = board.get(
     "build.bsp.name", "nrf5") == "adafruit" and "arduino" in env.get("PIOFRAMEWORK", [])
 if use_adafruit:
-    FRAMEWORK_DIR = platform.get_package_dir("A41")
+    FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoadafruitnrf52")
 
     os_platform = sys.platform
     if os_platform == "win32":
-        nrfutil_path = join(FRAMEWORK_DIR, "tools", "adafruit-nrfutil", "win32", "adafruit-nrfutil.exe")
+        nrfutil_path = join(FRAMEWORK_DIR, "tools", "adafruit-nrfutil", os_platform, "adafruit-nrfutil.exe")
     elif os_platform == "darwin":
         nrfutil_path = join(FRAMEWORK_DIR, "tools", "adafruit-nrfutil", "macos", "adafruit-nrfutil")
     else:
@@ -109,7 +123,7 @@ env.Append(
         MergeHex=Builder(
             action=env.VerboseAction(" ".join([
                 join(platform.get_package_dir("tool-sreccat") or "",
-                    "srec_cat"),
+                     "srec_cat"),
                 "$SOFTDEVICEHEX",
                 "-intel",
                 "$SOURCES",
@@ -167,7 +181,7 @@ if not env.get("PIOFRAMEWORK"):
 if "zephyr" in env.get("PIOFRAMEWORK", []):
     env.SConscript(
         join(platform.get_package_dir(
-            "zephyr"), "scripts", "OSQ", "build-pre.py"),
+            "framework-zephyr"), "scripts", "platformio", "platformio-build-pre.py"),
         exports={"env": env}
     )
 
@@ -200,6 +214,7 @@ else:
         else:
             target_firm = env.ElfToHex(
                 join("$BUILD_DIR", "${PROGNAME}"), target_elf)
+        env.Depends(target_firm, "checkprogsize")
 
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
@@ -216,7 +231,7 @@ if "DFUBOOTHEX" in env:
             join("$BUILD_DIR", "${PROGNAME}"),
             env.ElfToHex(join("$BUILD_DIR", "${PROGNAME}"), target_elf),
         ),
-        None,
+        target_firm,
         "Generate DFU Image",
     )
 
@@ -365,7 +380,7 @@ elif upload_protocol.startswith("jlink"):
         UPLOADER="JLink.exe" if system() == "Windows" else "JLinkExe",
         UPLOADERFLAGS=[
             "-device", env.BoardConfig().get("debug", {}).get("jlink_device"),
-            "-speed", "4000",
+            "-speed", env.GetProjectOption("debug_speed", "4000"),
             "-if", ("jtag" if upload_protocol == "jlink-jtag" else "swd"),
             "-autoconnect", "1",
             "-NoGui", "1"
@@ -380,13 +395,17 @@ elif upload_protocol in debug_tools:
     ]
     openocd_args.extend(
         debug_tools.get(upload_protocol).get("server").get("arguments", []))
+    if env.GetProjectOption("debug_speed"):
+        openocd_args.extend(
+            ["-c", "adapter speed %s" % env.GetProjectOption("debug_speed")]
+        )
     openocd_args.extend([
         "-c", "program {$SOURCE} %s verify reset; shutdown;" %
         board.get("upload.offset_address", "")
     ])
     openocd_args = [
         f.replace("$PACKAGE_DIR",
-                platform.get_package_dir("tool-openocd") or "")
+                  platform.get_package_dir("tool-openocd") or "")
         for f in openocd_args
     ]
     env.Replace(
@@ -418,7 +437,7 @@ env.AddPlatformTarget(
 
 if any("-Wl,-T" in f for f in env.get("LINKFLAGS", [])):
     print("Warning! '-Wl,-T' option for specifying linker scripts is deprecated. "
-        "Please use 'board_build.ldscript' option in your 'platformio.ini' file.")
+          "Please use 'board_build.ldscript' option in your 'platformio.ini' file.")
 
 #
 # Default targets

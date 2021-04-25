@@ -1,35 +1,35 @@
 {
   "name": "P41",
-  "title": "Platform P41",
+  "title": "Nordic nRF52",
   "description": "The nRF52 Series are built for speed to carry out increasingly complex tasks in the shortest possible time and return to sleep, conserving precious battery power. They have a Cortex-M4F processor and are the most capable Bluetooth Smart SoCs on the market.",
   "homepage": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
   "license": "Apache-2.0",
-  "version": "6.0.0",
+  "keywords": [
+    "dev-platform",
+    "ARM",
+    "Cortex-M",
+    "Nordic Semiconductor",
+    "nRF52"
+  ],
   "engines": {
     "platformio": "^5"
   },
-  "keywords": [
-      "dev-platform",
-      "OS-Q",
-      "Cortex-M",
-      "Nordic Semiconductor",
-      "nRF52"
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/P41.git"
+    "url": "https://github.com/platformio/platform-nordicnrf52.git"
   },
+  "version": "7.1.0",
   "frameworks": {
     "arduino": {
-      "package": "A41B",
+      "package": "framework-arduinonordicnrf5",
       "script": "builder/frameworks/arduino.py"
     },
     "mbed": {
-      "package": "mbed",
+      "package": "framework-mbed",
       "script": "builder/frameworks/mbed.py"
     },
     "zephyr": {
-      "package": "zephyr",
+      "package": "framework-zephyr",
       "script": "builder/frameworks/zephyr.py"
     }
   },
@@ -38,84 +38,103 @@
       "type": "toolchain",
       "owner": "platformio",
       "version": ">=1.60301.0,<1.80000.0",
-      "optionalVersions": ["~1.80201.0", "~1.90201.0"]
+      "optionalVersions": [
+        "~1.80201.0",
+        "~1.90201.0"
+      ]
     },
-    "mbed": {
+    "framework-mbed": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/mbed.git"
+      "owner": "platformio",
+      "version": "~6.60900.0",
+      "optionalVersions": [
+        "~6.51506.0"
+      ]
     },
-    "A41": {
+    "framework-arduinoadafruitnrf52": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/A41.git"
+      "owner": "platformio",
+      "version": "~1.2100.0"
     },
-    "A41B": {
+    "framework-arduinonordicnrf5": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/A41B.git"
+      "owner": "platformio",
+      "version": "~1.700.0"
     },
-    "A41A": {
+    "framework-arduino-mbed": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/A41A.git"
+      "owner": "platformio",
+      "version": "~1.3.2"
     },
-    "zephyr": {
+    "framework-zephyr": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/zephyr.git"
+      "owner": "platformio",
+      "version": "~2.20500.0"
     },
-    "zephyr-hal-nordic": {
+    "framework-zephyr-cmsis": {
       "optional": true,
-      "version": "https://github.com/OS-Q/F41Z.git"
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.c3bd2094f9"
     },
-    "zephyr-cmsis": {
+    "framework-zephyr-canopennode": {
       "optional": true,
-      "version": "https://github.com/OS-Q/zephyr-cmsis.git"
-    },
-    "zephyr-trusted-firmware-m": {
-      "optional": true,
-      "version": "https://github.com/OS-Q/zephyr-trusted-firmware-m.git"
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.468d350028"
     },
     "framework-zephyr-civetweb": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.99129c5efc"
+      "version": "0.0.0-alpha+sha.e6903b80c0"
     },
     "framework-zephyr-fatfs": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.13697783bf"
+      "version": "0.0.0-alpha+sha.1d1fcc725a"
+    },
+    "framework-zephyr-hal-nordic": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.f0d54d8449"
+    },
+    "framework-zephyr-hal-st": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.b52fdbf4b6"
     },
     "framework-zephyr-libmetal": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.0b23894a04"
+      "version": "0.0.0-alpha+sha.9d4ee2c3cf"
     },
     "framework-zephyr-lvgl": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.928b61c7c8"
+      "version": "0.0.0-alpha+sha.31acbaa36e"
     },
     "framework-zephyr-mbedtls": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.aef137b1af"
+      "version": "0.0.0-alpha+sha.24d84ecff1"
     },
     "framework-zephyr-mcuboot": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.a5d79cf8cc"
+      "version": "0.0.0-alpha+sha.3fc59410b6"
     },
     "framework-zephyr-mcumgr": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.5051f9d900"
+      "version": "0.0.0-alpha+sha.43845e883f"
     },
     "framework-zephyr-open-amp": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.724f7e2a45"
+      "version": "0.0.0-alpha+sha.de1b85a130"
     },
     "framework-zephyr-loramac-node": {
       "optional": true,
@@ -125,12 +144,17 @@
     "framework-zephyr-openthread": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.07f430dac6"
+      "version": "0.0.0-alpha+sha.1d668284a0"
     },
     "framework-zephyr-segger": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.874d9e9696"
+      "version": "0.0.0-alpha+sha.38c79a447e"
+    },
+    "framework-zephyr-sof": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.b5b772dd61"
     },
     "framework-zephyr-tinycbor": {
       "optional": true,
@@ -150,7 +174,17 @@
     "framework-zephyr-mipi-sys-t": {
       "optional": true,
       "owner": "platformio",
-      "version": "0.0.0-alpha+sha.957d46bc3c"
+      "version": "0.0.0-alpha+sha.75e671550a"
+    },
+    "framework-zephyr-tfm-mcuboot": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "1.7.0-rc1"
+    },
+    "framework-zephyr-trusted-firmware-m": {
+      "optional": true,
+      "owner": "platformio",
+      "version": "0.0.0-alpha+sha.96340fb6c0"
     },
     "tool-sreccat": {
       "owner": "platformio",

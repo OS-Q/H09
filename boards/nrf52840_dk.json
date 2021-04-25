@@ -10,12 +10,11 @@
     "mcu": "nrf52840",
     "variant": "nRF52DK",
     "zephyr": {
-      "variant": "nrf52840dk_nrf52840"
+       "variant": "nrf52840dk_nrf52840"
     }
   },
   "connectivity": [
-    "bluetooth",
-    "nfc"
+    "bluetooth"
   ],
   "debug": {
     "default_tools": [
@@ -33,7 +32,7 @@
     "mbed",
     "zephyr"
   ],
-  "name": "nRF52840-DK",
+  "name": "Nordic nRF52840-DK",
   "upload": {
     "maximum_ram_size": 262144,
     "maximum_size": 1048576,

@@ -1,3 +1,18 @@
+# Copyright 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import copy
 import json
 import os
 import platform
@@ -20,14 +35,10 @@ class P41Platform(PlatformBase):
                 "upload_protocol",
                 self.board_config(board).get("upload.protocol", ""))
 
-            if self.board_config(board).get("build.bsp.name","nrf5") == "adafruit":
-                self.frameworks['arduino']['package'] = "A41"
-
-            if self.board_config(board).get("build.bsp.name","nrf5") == "mbedos":
-            # if board == "nano33ble":
-                self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
-                self.frameworks['arduino']['package'] = "A41A"
-                self.frameworks['arduino']['script'] = "builder/frameworks/arduino/nrf52-mbedos.py"
+            if self.board_config(board).get("build.bsp.name",
+                                            "nrf5") == "adafruit":
+                self.frameworks["arduino"][
+                    "package"] = "framework-arduinoadafruitnrf52"
 
             if "mbed" in frameworks:
                 deprecated_boards_file = os.path.join(
@@ -35,25 +46,32 @@ class P41Platform(PlatformBase):
                 if os.path.isfile(deprecated_boards_file):
                     with open(deprecated_boards_file) as fp:
                         if board in json.load(fp):
-                            self.packages["mbed"]["version"] = "~6.51506.0"
+                            self.packages["framework-mbed"]["version"] = "~6.51506.0"
                 self.packages["toolchain-gccarmnoneeabi"]["version"] = "~1.90201.0"
 
             if "zephyr" in frameworks:
                 for p in self.packages:
-                    if p.startswith("framework-zephyr-")  or p.startswith("zephyr-") or p in (
+                    if p.startswith("framework-zephyr-") or p in (
                         "tool-cmake",
                         "tool-dtc",
                         "tool-ninja",
                     ):
                         self.packages[p]["optional"] = False
-                self.packages['toolchain-gccarmnoneeabi']['version'] = "~1.80201.0"
+                self.packages["toolchain-gccarmnoneeabi"]["version"] = "~1.80201.0"
                 if "windows" not in get_systype():
-                    self.packages['tool-gperf']['optional'] = False
+                    self.packages["tool-gperf"]["optional"] = False
+
+            if board == "nano33ble":
+                self.packages["toolchain-gccarmnoneeabi"]["version"] = "~1.80201.0"
+                self.frameworks["arduino"]["package"] = "framework-arduino-mbed"
+                self.frameworks["arduino"][
+                    "script"
+                ] = "builder/frameworks/arduino/mbed-core/arduino-core-mbed.py"
 
         if set(["bootloader", "erase"]) & set(targets):
             self.packages["tool-nrfjprog"]["optional"] = False
         elif (upload_protocol and upload_protocol != "nrfjprog"
-            and "tool-nrfjprog" in self.packages):
+              and "tool-nrfjprog" in self.packages):
             del self.packages["tool-nrfjprog"]
 
         # configure J-LINK tool
@@ -72,7 +90,7 @@ class P41Platform(PlatformBase):
             del self.packages[jlink_pkgname]
 
         return PlatformBase.configure_default_packages(self, variables,
-                                                        targets)
+                                                       targets)
 
     def get_boards(self, id_=None):
         result = PlatformBase.get_boards(self, id_)
@@ -90,7 +108,7 @@ class P41Platform(PlatformBase):
         upload_protocols = board.manifest.get("upload", {}).get(
             "protocols", [])
         if "tools" not in debug:
-            debug['tools'] = {}
+            debug["tools"] = {}
 
         # J-Link / ST-Link / BlackMagic Probe
         for link in ("blackmagic", "jlink", "stlink", "cmsis-dap"):
@@ -98,7 +116,7 @@ class P41Platform(PlatformBase):
                 continue
 
             if link == "blackmagic":
-                debug['tools']['blackmagic'] = {
+                debug["tools"]["blackmagic"] = {
                     "hwids": [["0x1d50", "0x6018"]],
                     "require_debug_port": True
                 }
@@ -106,7 +124,7 @@ class P41Platform(PlatformBase):
             elif link == "jlink":
                 assert debug.get("jlink_device"), (
                     "Missed J-Link Device ID for %s" % board.id)
-                debug['tools'][link] = {
+                debug["tools"][link] = {
                     "server": {
                         "package": "tool-jlink",
                         "arguments": [
@@ -117,8 +135,8 @@ class P41Platform(PlatformBase):
                             "-port", "2331"
                         ],
                         "executable": ("JLinkGDBServerCL.exe"
-                                        if platform.system() == "Windows" else
-                                        "JLinkGDBServer")
+                                       if platform.system() == "Windows" else
+                                       "JLinkGDBServer")
                     }
                 }
 
@@ -133,7 +151,7 @@ class P41Platform(PlatformBase):
                         "transport select hla_swd; set WORKAREASIZE 0x4000"
                     ])
                 server_args.extend(["-f", "target/nrf52.cfg"])
-                debug['tools'][link] = {
+                debug["tools"][link] = {
                     "server": {
                         "package": "tool-openocd",
                         "executable": "bin/openocd",
@@ -142,8 +160,25 @@ class P41Platform(PlatformBase):
                 }
                 server_args.extend(debug.get("openocd_extra_args", []))
 
-            debug['tools'][link]['onboard'] = link in debug.get("onboard_tools", [])
-            debug['tools'][link]['default'] = link in debug.get("default_tools", [])
+            debug["tools"][link]["onboard"] = link in debug.get("onboard_tools", [])
+            debug["tools"][link]["default"] = link in debug.get("default_tools", [])
 
         board.manifest['debug'] = debug
         return board
+
+    def configure_debug_options(self, initial_debug_options, ide_data):
+        debug_options = copy.deepcopy(initial_debug_options)
+        adapter_speed = initial_debug_options.get("speed")
+        if adapter_speed:
+            server_options = debug_options.get("server") or {}
+            server_executable = server_options.get("executable", "").lower()
+            if "openocd" in server_executable:
+                debug_options["server"]["arguments"].extend(
+                    ["-c", "adapter speed %s" % adapter_speed]
+                )
+            elif "jlink" in server_executable:
+                debug_options["server"]["arguments"].extend(
+                    ["-speed", adapter_speed or "4000"]
+                )
+
+        return debug_options

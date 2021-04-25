@@ -1,19 +1,24 @@
 language: python
 python:
-  - "3.7"
+  - "3.9"
+os:
+  - linux
+
+git:
+  depth: 1
 
 env:
   - PLATFORMIO_PROJECT_DIR=examples/arduino-blink
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-led
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-uart
+  - PLATFORMIO_PROJECT_DIR=examples/arduino-ble-led
   - PLATFORMIO_PROJECT_DIR=examples/zephyr-blink
 
 install:
-  - pip install -U https://github.com/OS-Q/S03/archive/master.zip
-  - platformio platform install file://.
+  - pip install platformio
+    pio update
+  - pio platform install file://.
 
 script:
-  - platformio run -s -d $PLATFORMIO_PROJECT_DIR
+  - qio run -d $PLATFORMIO_PROJECT_DIR
 
 notifications:
   email: false
