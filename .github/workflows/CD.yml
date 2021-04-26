@@ -8,6 +8,7 @@ on:
 
 env:
   UPLOAD_BUILD: false
+  PLAT: "41"
 
 jobs:
   Lint_Code:
@@ -156,7 +157,7 @@ jobs:
       - name: Checkout templete
         uses: actions/checkout@v2
         with:
-          repository: OS-Q/T51${{ matrix.template }}
+          repository: OS-Q/T${{ env.PLAT }}${{ matrix.template }}
           token: ${{ secrets.OSQ_REPO_TOKEN }}
           path: ${{ matrix.template }}
 
@@ -291,7 +292,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install https://github.com/OS-Q/P41/releases/latest/download/package.zip
+          qio platform install https://github.com/OS-Q/P${{ env.PLAT }}/releases/latest/download/package.zip
           echo "::set-output name=status::success"
 
       - name: Build
@@ -458,7 +459,7 @@ jobs:
         with:
           submodules: "recursive"
           fetch-depth: 1
-          repository: OS-Q/T51
+          repository: OS-Q/T${{ env.PLAT }}
           token: ${{ secrets.OSQ_REPO_TOKEN }}
           path: examples
 
@@ -467,7 +468,7 @@ jobs:
         with:
           submodules: "recursive"
           fetch-depth: 1
-          repository: OS-Q/B51
+          repository: OS-Q/B${{ env.PLAT }}
           token: ${{ secrets.OSQ_REPO_TOKEN }}
           path: boards
 
