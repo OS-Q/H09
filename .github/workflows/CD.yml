@@ -98,6 +98,10 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/') && !success()
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
       - name: Generate message
         id: message
         if: startsWith(github.ref, 'refs/tags/')
@@ -116,6 +120,7 @@ jobs:
           message: ${{ steps.message.outputs.info }}
 
       - name: delet tag
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           git fetch
           git tag -d ${GITHUB_REF/refs\/tags\//}
@@ -177,12 +182,6 @@ jobs:
           password: ${{secrets.MQTT_PASSWORD}}
           topic: ${{github.repository}}/${{github.workflow}}
           message: "build templete fail"
-
-      - name: delet tag
-        run: |
-          git fetch
-          git tag -d ${GITHUB_REF/refs\/tags\//}
-          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
 
   release:
     needs:
