@@ -18,8 +18,14 @@ jobs:
       - run:
           name: "Build"
           command: |
-            pio run -d examples/arduino-ble-led
             pio run -d examples/arduino-blink
+            pio run -d examples/arduino-ble-led
+            pio run -d examples/arduino-serial-plotter
+            pio run -d examples/arduino-nina-b1-generic-example
+            pio run -d examples/mbed-rtos-ble-thermometer
+            pio run -d examples/mbed-rtos-blink-baremetal
+            pio run -d examples/mbed-rtos-nfc
+            pio run -d examples/mbed-nfc
 
   PIO:
     docker:
@@ -38,8 +44,14 @@ jobs:
       - run:
           name: "Build"
           command: |
-            pio run -d examples/arduino-ble-led
             pio run -d examples/arduino-blink
+            pio run -d examples/arduino-ble-led
+            pio run -d examples/arduino-serial-plotter
+            pio run -d examples/arduino-nina-b1-generic-example
+            pio run -d examples/mbed-rtos-ble-thermometer
+            pio run -d examples/mbed-rtos-blink-baremetal
+            pio run -d examples/mbed-rtos-nfc
+            pio run -d examples/mbed-nfc
 
 workflows:
     version: 2
