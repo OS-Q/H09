@@ -57,7 +57,7 @@ class P41Platform(PlatformBase):
         if set(["bootloader", "erase"]) & set(targets):
             self.packages["tool-nrfjprog"]["optional"] = False
         elif (upload_protocol and upload_protocol != "nrfjprog"
-              and "tool-nrfjprog" in self.packages):
+                and "tool-nrfjprog" in self.packages):
             del self.packages["tool-nrfjprog"]
 
         # configure J-LINK tool

@@ -68,6 +68,10 @@ jobs:
           - "mbed-rtos-nfc"
           - "mbed-rtos"
           - "mbed-nfc"
+          - "zephyr-blink"
+          - "zephyr-ble-beacon"
+          - "zephyr-subsys-nvs"
+          - "zephyr-net-echo-client"
 
         os: [ubuntu-latest, windows-latest, macos-latest]
 

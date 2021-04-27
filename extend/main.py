@@ -4,7 +4,7 @@ from os import makedirs
 from os.path import isdir, join, basename
 
 from SCons.Script import (ARGUMENTS, COMMAND_LINE_TARGETS, AlwaysBuild,
-                          Builder, Default, DefaultEnvironment)
+                            Builder, Default, DefaultEnvironment)
 
 from platformio.util import get_serial_ports
 
@@ -109,7 +109,7 @@ env.Append(
         MergeHex=Builder(
             action=env.VerboseAction(" ".join([
                 join(platform.get_package_dir("tool-sreccat") or "",
-                     "srec_cat"),
+                    "srec_cat"),
                 "$SOFTDEVICEHEX",
                 "-intel",
                 "$SOURCES",
