@@ -1,6 +1,6 @@
 {
   "name": "P41",
-  "title": "OS-Q Platform nRF52",
+  "title": "OS-Q Platform nRF52 BLE SoC",
   "description": "Nordic nRF52 BLE SoC with a Cortex-M4F processor.",
   "homepage": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
   "license": "Apache-2.0",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/platformio/platform-nordicnrf52.git"
+    "url": "https://github.com/OS-Q/P41.git"
   },
   "version": "7.1.0",
   "frameworks": {
@@ -37,10 +37,9 @@
     "toolchain-gccarmnoneeabi": {
       "type": "toolchain",
       "owner": "platformio",
-      "version": ">=1.60301.0,<1.80000.0",
+      "version": "~1.90201.0",
       "optionalVersions": [
-        "~1.80201.0",
-        "~1.90201.0"
+        "~1.80201.0"
       ]
     },
     "framework-mbed": {

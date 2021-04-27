@@ -52,7 +52,7 @@ class P41Platform(PlatformBase):
                 self.frameworks["arduino"]["package"] = "framework-arduino-mbed"
                 self.frameworks["arduino"][
                     "script"
-                ] = "extend/frameworks/arduino/arduino-core-mbed.py"
+                ] = "extend/frameworks/arduino-core-mbed.py"
 
         if set(["bootloader", "erase"]) & set(targets):
             self.packages["tool-nrfjprog"]["optional"] = False
