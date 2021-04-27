@@ -4,7 +4,6 @@ from SCons.Script import AlwaysBuild, Import
 Import("env")
 
 
-# Added in PIO Core 4.4.0
 if not hasattr(env, "AddPlatformTarget"):
 
     def AddPlatformTarget(
