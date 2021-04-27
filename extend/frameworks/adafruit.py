@@ -11,7 +11,7 @@ platform = env.PioPlatform()
 board = env.BoardConfig()
 variant = board.get("build.variant")
 
-FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoadafruitnrf52")
+FRAMEWORK_DIR = platform.get_package_dir("A41")
 assert isdir(FRAMEWORK_DIR)
 
 CORE_DIR = join(FRAMEWORK_DIR, "cores", board.get("build.core"))

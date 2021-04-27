@@ -24,7 +24,7 @@ class P41Platform(PlatformBase):
             if self.board_config(board).get("build.bsp.name",
                                             "nrf5") == "adafruit":
                 self.frameworks["arduino"][
-                    "package"] = "framework-arduinoadafruitnrf52"
+                    "package"] = "A41"
 
             if "mbed" in frameworks:
                 deprecated_boards_file = os.path.join(
