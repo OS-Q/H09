@@ -206,13 +206,9 @@ jobs:
       - name: Package
         id: package
         run: |
-
-          # mkdir package
-          # cp -rf boards builder extend monitor link.json link.py platform.json platform.py package
-          zip -r package.zip boards builder extend monitor link.json link.py platform.json platform.py
-          # mkdir sources
-          # cp -rf boards extend monitor link.json link.py sources
-          zip -r sources.zip boards extend monitor link.json link.py
+          zip -r package.zip boards builder extend misc link.json link.py platform.json platform.py
+          zip -r qio.zip boards extend misc link.json link.py
+          zip -r pio.zip boards builder misc platform.json platform.py
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
 
@@ -223,12 +219,19 @@ jobs:
           name:  ${{ steps.tag.outputs.release_tag }}_all
           path: ${{ env.FIRMWARE }}/package.zip
 
-      - name: Upload sources
+      - name: Upload qio
         if: env.UPLOAD_BUILD
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.tag.outputs.release_tag }}_lite
-          path: ${{ env.FIRMWARE }}/sources.zip
+          name: ${{ steps.tag.outputs.release_tag }}_qio
+          path: ${{ env.FIRMWARE }}/qio.zip
+
+      - name: Upload pio
+        if: env.UPLOAD_BUILD
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.tag.outputs.release_tag }}_pio
+          path: ${{ env.FIRMWARE }}/pio.zip
 
       - name: Release version
         id: upload-release
@@ -240,7 +243,8 @@ jobs:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
             ${{ env.FIRMWARE }}/package.zip
-            ${{ env.FIRMWARE }}/sources.zip
+            ${{ env.FIRMWARE }}/qio.zip
+            ${{ env.FIRMWARE }}/pio.zip
 
   release_end:
     needs:
@@ -265,6 +269,7 @@ jobs:
           message: "release not success"
 
       - name: delet tag
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           git fetch
           git tag -d ${GITHUB_REF/refs\/tags\//}
@@ -324,6 +329,7 @@ jobs:
           message: "check release not success"
 
       - name: delet tag
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
           git fetch
           git tag -d ${GITHUB_REF/refs\/tags\//}

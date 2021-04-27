@@ -29,11 +29,15 @@ jobs:
           - "mbed-rtos-nfc"
           - "mbed-rtos"
           - "mbed-nfc"
-
+          - "zephyr-blink"
+          - "zephyr-ble-beacon"
+          - "zephyr-subsys-nvs"
+          - "zephyr-net-echo-client"
         os: [ubuntu-latest, windows-latest, macos-latest]
         package:
           - "all"
-          - "lite"
+          - "qio"
+          - "pio"
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -54,12 +58,19 @@ jobs:
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
           pio platform install https://github.com/OS-Q/P41/releases/latest/download/package.zip
 
-      - name: Install lite
-        if: matrix.package == 'lite'
+      - name: Install qio
+        if: matrix.package == 'qio'
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install https://github.com/OS-Q/P41/releases/latest/download/sources.zip
+          qio platform install https://github.com/OS-Q/P41/releases/latest/download/qio.zip
+
+      - name: Install pio
+        if: matrix.package == 'pio'
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          qio platform install https://github.com/OS-Q/P41/releases/latest/download/pio.zip
 
       - name: Build
         if: success()
@@ -71,7 +82,7 @@ jobs:
         if: env.UPLOAD_BUILD
         uses: actions/upload-artifact@v2
         with:
-          name: qio_build_${{ matrix.example }}_${{ matrix.package }}
+          name: build_${{ matrix.example }}_${{ matrix.package }}
           path: examples/${{ matrix.example }}/.pio/build/
 
   QIO_fail:
@@ -107,7 +118,10 @@ jobs:
           - "mbed-rtos-nfc"
           - "mbed-rtos"
           - "mbed-nfc"
-
+          - "zephyr-blink"
+          - "zephyr-ble-beacon"
+          - "zephyr-subsys-nvs"
+          - "zephyr-net-echo-client"
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
