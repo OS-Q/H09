@@ -2,13 +2,17 @@ build: off
 environment:
 
   matrix:
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino-blink"
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino-ble-led"
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino-serial-plotter"
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino-bluefruit-bleuart"
-    - PLATFORMIO_PROJECT_DIR: "examples/arduino-nina-b1-generic-example"
-    - PLATFORMIO_PROJECT_DIR: "examples/mbed-rtos-nfc"
+    - PLATFORMIO_PROJECT_DIR: examples/arduino-blink
+    - PLATFORMIO_PROJECT_DIR: examples/arduino-ble-led
+    - PLATFORMIO_PROJECT_DIR: examples/arduino-serial-plotter
+    - PLATFORMIO_PROJECT_DIR: examples/mbed-rtos-ble-thermometer
+    - PLATFORMIO_PROJECT_DIR: examples/arduino-nina-b1-generic-example
+    - PLATFORMIO_PROJECT_DIR: examples/mbed-rtos-blink-baremetal
+    - PLATFORMIO_PROJECT_DIR: examples/mbed-rtos-nfc
+    - PLATFORMIO_PROJECT_DIR: examples/mbed-rtos
+    - PLATFORMIO_PROJECT_DIR: examples/mbed-nfc
 
+clone_depth: 1
 platform:
   - x64
 install:
@@ -16,6 +20,9 @@ install:
   - cmd: SET PATH=C:\Python37\Scripts;%PATH%
   - cmd: pip3 install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
   - cmd: qio platform install file://.
+
+build_script:
+  - cmd: pio run -d %PLATFORMIO_PROJECT_DIR%
 
 test_script:
   - cmd: qio run -d %PLATFORMIO_PROJECT_DIR%

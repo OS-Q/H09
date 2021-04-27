@@ -300,7 +300,6 @@ jobs:
         if: steps.getgh.outputs.status == 'success' && !cancelled()
         run: |
           qio run -d examples/arduino-blink
-          qio run -d examples/simba-blink
 
   check_release_end:
     needs:
@@ -484,14 +483,12 @@ jobs:
         run: |
           ossutil cp ${{ secrets.OSS_P_Q_BUCKET }}P41.md .
           echo ${GITHUB_REF/refs\/tags\//} >> P41.md
-          echo $(date +"%Y.%m.%d") >> P41.md
 
           echo "Platform P41 for NRF52 BLE SoC" >> P41.txt
-          echo $(date +"%Y.%m.%d") >> P41.txt
           echo ${GITHUB_REF/refs\/tags\//} >> P41.txt
-          echo "www.OS-Q.com\n" >> P41.txt
-          git log --stat -1 >> P41.txt
-
+          git log --stat -3 >> P41.txt
+          rm -rf examples/.git*
+          rm -rf boards/.git*
           zip -r P41.zip examples boards builder extend misc link.json link.py platform.json platform.py
           ossutil cp P41.zip ${{ secrets.OSS_P_Q_BUCKET }} -f
           ossutil cp P41.txt ${{ secrets.OSS_P_Q_BUCKET }} -f
@@ -507,7 +504,7 @@ jobs:
           username: ${{secrets.MQTT_USERNAME}}
           password: ${{secrets.MQTT_PASSWORD}}
           topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
-          message: "deploy lite success"
+          message: "package success"
 
   check_package:
     needs:
@@ -527,7 +524,7 @@ jobs:
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
           access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
 
-      - name: download lite
+      - name: download package
         id: download
         run: |
           ossutil cp ${{ secrets.OSS_P_Q_BUCKET }}P41.zip .
@@ -535,7 +532,7 @@ jobs:
           ossutil cp ${{ secrets.OSS_P_Q_BUCKET }}P41.md .
           echo "::set-output name=status::success"
 
-      - name: Install lite
+      - name: Install package
         if: steps.download.outputs.status == 'success' && !cancelled()
         run: |
           python -m pip install --upgrade pip
@@ -586,7 +583,7 @@ jobs:
           username: ${{secrets.MQTT_USERNAME}}
           password: ${{secrets.MQTT_PASSWORD}}
           topic: ${{github.repository}}/${{github.workflow}}
-          message: "lite check fail"
+          message: "package check fail"
 
       - name: delet tag
         run: |

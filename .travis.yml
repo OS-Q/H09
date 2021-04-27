@@ -9,12 +9,14 @@ git:
 
 env:
   - PLATFORMIO_PROJECT_DIR=examples/arduino-blink
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-serial-plotter
   - PLATFORMIO_PROJECT_DIR=examples/arduino-ble-led
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-bluefruit-bleuart
+  - PLATFORMIO_PROJECT_DIR=examples/arduino-serial-plotter
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-rtos-ble-thermometer
   - PLATFORMIO_PROJECT_DIR=examples/arduino-nina-b1-generic-example
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-internal-libs
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-rtos-blink-baremetal
   - PLATFORMIO_PROJECT_DIR=examples/mbed-rtos-nfc
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-rtos
+  - PLATFORMIO_PROJECT_DIR=examples/mbed-nfc
 
 install:
   - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip

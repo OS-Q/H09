@@ -10,11 +10,16 @@ steps:
   - git submodule update --init --recursive
   - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
   - qio platform install file://.
+  - pio run -d examples/mbed-nfc
+  - pio run -d examples/mbed-rtos
+  - pio run -d examples/mbed-rtos-nfc
   - pio run -d examples/arduino-blink
   - pio run -d examples/arduino-ble-led
   - pio run -d examples/arduino-serial-plotter
-  - pio run -d examples/arduino-bluefruit-bleuart
+  - pio run -d examples/mbed-rtos-ble-thermometer
+  - pio run -d examples/mbed-rtos-blink-baremetal
   - pio run -d examples/arduino-nina-b1-generic-example
+
 
 - name: PIO
   image: python:3
@@ -24,8 +29,14 @@ steps:
   - git submodule update --init --recursive
   - pip install -U https://github.com/platformio/platformio/archive/develop.zip
   - pio platform install file://.
+  - pio run -d examples/mbed-nfc
+  - pio run -d examples/mbed-rtos
+  - pio run -d examples/mbed-rtos-nfc
   - pio run -d examples/arduino-blink
   - pio run -d examples/arduino-ble-led
   - pio run -d examples/arduino-serial-plotter
-  - pio run -d examples/arduino-bluefruit-bleuart
+  - pio run -d examples/mbed-rtos-ble-thermometer
+  - pio run -d examples/mbed-rtos-blink-baremetal
   - pio run -d examples/arduino-nina-b1-generic-example
+
+
