@@ -4,11 +4,13 @@ on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
-      # - "[0-9]+.[0-9]+.[0-9]+*"
 
 env:
-  UPLOAD_BUILD: false
-  PLAT: "41"
+  MONT: "M03"
+  PLAT: "P41"
+  TEMP: "T41"
+  TOPIC: "NRF52 Platform"
+  LASTV: "v0.0.1"
 
 jobs:
   Lint_Code:
@@ -47,7 +49,6 @@ jobs:
         path: codecheck.txt
 
   example:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
@@ -63,7 +64,9 @@ jobs:
           - "mbed-rtos-nfc"
           - "mbed-rtos"
           - "mbed-nfc"
-
+        package: ["all","pio","qio"]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -75,25 +78,33 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install
+      - name: Install all
+        if: matrix.package == 'all'
         run: |
-          python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          pip install -U https://github.com/OS-Q/${{ env.MONT }}/releases/latest/download/qio.zip
           qio platform install file://.
+
+      - name: Install qio
+        if: matrix.package == 'qio'
+        run: |
+          pip install -U https://github.com/OS-Q/${{ env.MONT }}/releases/latest/download/qio.zip
+          # qio platform install https://github.com/OS-Q/${{ env.PLAT }}/releases/latest/download/qio.zip
+          qio platform install file://.
+
+      - name: Install pio
+        if: matrix.package == 'pio'
+        run: |
+          pip install -U https://github.com/platformio/platformio/archive/develop.zip
+          # pio platform install https://github.com/OS-Q/${{ env.PLAT }}/archive/pio.zip
+          pio platform install file://.
 
       - name: build examples
         working-directory: examples
         run: |
-          qio run -d ${{ matrix.example }}
+          pio run -d ${{ matrix.example }}
 
-      - name: upload examples
-        if: env.UPLOAD_BUILD
-        uses: actions/upload-artifact@v2
-        with:
-          name: build_${{ matrix.example }}
-          path: examples/${{ matrix.example }}/.pio/build
 
-  build_example_end:
+  example_tail:
     needs:
       - example
     if: startsWith(github.ref, 'refs/tags/') && !success()
@@ -131,12 +142,13 @@ jobs:
     needs:
       - example
     if: success()
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
         template: ["A","B"]
-
+        package: ["pio","qio"]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -148,16 +160,23 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install
+
+      - name: Install qio
+        if: matrix.package == 'qio'
         run: |
-          python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          pip install -U https://github.com/OS-Q/${{ env.MONT }}/releases/latest/download/qio.zip
           qio platform install file://.
+
+      - name: Install pio
+        if: matrix.package == 'pio'
+        run: |
+          pip install -U https://github.com/platformio/platformio/archive/develop.zip
+          pio platform install file://.
 
       - name: Checkout templete
         uses: actions/checkout@v2
         with:
-          repository: OS-Q/T${{ env.PLAT }}${{ matrix.template }}
+          repository: OS-Q/${{ env.TEMP }}${{ matrix.template }}
           token: ${{ secrets.OSQ_REPO_TOKEN }}
           path: ${{ matrix.template }}
 
@@ -165,29 +184,13 @@ jobs:
         if: success()
         working-directory: ${{ matrix.template }}
         run: |
-          qio run -d .
+          pio run -d .
 
-  build_templete_end:
-    needs:
-      - templete
-    if: startsWith(github.ref, 'refs/tags/') && !success()
-    runs-on: ubuntu-latest
-    steps:
-      - name: notification
-        uses: Qful/mqtt-action@master
-        with:
-          protocol: mqtt
-          host: ${{secrets.MQTT_SERVER}}
-          port: 1883
-          username: ${{secrets.MQTT_USERNAME}}
-          password: ${{secrets.MQTT_PASSWORD}}
-          topic: ${{github.repository}}/${{github.workflow}}
-          message: "build templete fail"
 
   release:
     needs:
       - templete
-    if: success()
+    if: success() && needs.templete.result != 'skipped'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -196,96 +199,43 @@ jobs:
           submodules: "recursive"
           fetch-depth: 1
 
-      - name: Generate tag
-        id: tag
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: package src
         run: |
-          echo "::set-output name=release_tag::release_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
-          echo "::set-output name=status::success"
-
-      - name: Package
-        id: package
-        run: |
-          zip -r package.zip boards builder extend misc link.json link.py platform.json platform.py
+          zip -r all.zip boards builder extend misc link.json link.py platform.json platform.py
           zip -r qio.zip boards extend misc link.json link.py
           zip -r pio.zip boards builder misc platform.json platform.py
-          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-          echo "::set-output name=status::success"
+          mkdir package
+          cp *.zip package/
 
-      - name: Upload package
-        if: env.UPLOAD_BUILD
-        uses: actions/upload-artifact@v2
-        with:
-          name:  ${{ steps.tag.outputs.release_tag }}_all
-          path: ${{ env.FIRMWARE }}/package.zip
-
-      - name: Upload qio
-        if: env.UPLOAD_BUILD
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.tag.outputs.release_tag }}_qio
-          path: ${{ env.FIRMWARE }}/qio.zip
-
-      - name: Upload pio
-        if: env.UPLOAD_BUILD
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.tag.outputs.release_tag }}_pio
-          path: ${{ env.FIRMWARE }}/pio.zip
-
-      - name: Release version
-        id: upload-release
-        uses: Qful/release-action@master
-        if: steps.tag.outputs.status == 'success' && !cancelled()
-        env:
-          GITHUB_TOKEN: ${{ secrets.OSQ_REPO_TOKEN }}
-        with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
-          files: |
-            ${{ env.FIRMWARE }}/package.zip
-            ${{ env.FIRMWARE }}/qio.zip
-            ${{ env.FIRMWARE }}/pio.zip
-
-  release_end:
-    needs:
-      - release
-    if: startsWith(github.ref, 'refs/tags/') && !success()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: "recursive"
-
-      - name: notification
-        uses: Qful/mqtt-action@master
-        with:
-          protocol: mqtt
-          host: ${{secrets.MQTT_SERVER}}
-          port: 1883
-          username: ${{secrets.MQTT_USERNAME}}
-          password: ${{secrets.MQTT_PASSWORD}}
-          topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
-          message: "release not success"
-
-      - name: delet tag
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Get Tag
+        id: tag_name
         run: |
-          git fetch
-          git tag -d ${GITHUB_REF/refs\/tags\//}
-          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
+          echo ::set-output name=TAG_NAME::${GITHUB_REF#refs/tags/}
+
+      - name: Publish Release [GitHub]
+        uses: svenstaro/upload-release-action@2.2.0
+        with:
+          repo_token: ${{ secrets.OSQ_REPO_TOKEN }}
+          release_name: ${{ steps.tag_name.outputs.TAG_NAME }}
+          tag: ${{ github.ref }}
+          file_glob: true
+          body: "${{ env.PLAT }} 发布新版本 ${{ steps.tag_name.outputs.TAG_NAME }}"
+          file: package/*
+
 
   check_release:
     needs:
       - release
     if: success()
     runs-on: ubuntu-latest
-
+    outputs:
+      BODY: ${{ steps.check_release.outputs.BODY }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          submodules: "recursive"
-          fetch-depth: 1
+          fetch-depth: 1 # To fetch all history for all branches and tags.
+
 
       - name: Set up Python
         uses: actions/setup-python@v1
@@ -296,8 +246,10 @@ jobs:
         id: getgh
         run: |
           python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install https://github.com/OS-Q/P${{ env.PLAT }}/releases/latest/download/package.zip
+          pip install -U https://github.com/platformio/platformio/archive/develop.zip
+          pio platform install https://github.com/OS-Q/${{ env.PLAT }}/releases/latest/download/pio.zip
+          pip install -U https://github.com/OS-Q/${{ env.MONT }}/releases/latest/download/qio.zip
+          qio platform install https://github.com/OS-Q/${{ env.PLAT }}/releases/latest/download/qio.zip
           echo "::set-output name=status::success"
 
       - name: Build
@@ -306,7 +258,7 @@ jobs:
         run: |
           qio run -d examples/arduino-blink
 
-  check_release_end:
+  release_tail:
     needs:
       - check_release
     if: startsWith(github.ref, 'refs/tags/') && !success()
@@ -341,24 +293,11 @@ jobs:
     if: success()
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: "recursive"
-          fetch-depth: 1
-
-      - name: Setup OSS
-        uses: Qful/ossutil-action@master
-        with:
-          endpoint: ${{ secrets.OSS_ENDPOINT }}
-          access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
-          access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-
-      - name: upload package
-        id: OSS
-        run: |
-          zip -r P41.zip boards builder extend misc link.json link.py platform.json platform.py
-          ossutil cp P41.zip ${{ secrets.OSS_P_BUCKET }} -f
+      # - name: Checkout
+      #   uses: actions/checkout@v2
+      #   with:
+      #     submodules: "recursive"
+      #     fetch-depth: 1
 
       - name: notification
         uses: Qful/mqtt-action@master
@@ -382,27 +321,6 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Setup OSS
-        uses: Qful/ossutil-action@master
-        with:
-          endpoint: ${{ secrets.OSS_ENDPOINT }}
-          access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
-          access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-
-      - name: download package
-        id: download
-        run: |
-          ossutil cp ${{ secrets.OSS_P_BUCKET }}P41.zip .
-          ls -a P41.zip
-          echo "::set-output name=status::success"
-
-      - name: Install package
-        if: steps.download.outputs.status == 'success' && !cancelled()
-        run: |
-          python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install file://./P41.zip
-
       - name: notification
         uses: Qful/mqtt-action@master
         with:
@@ -414,7 +332,7 @@ jobs:
           topic: ${{github.repository}}/${{github.workflow}}
           message: "deploy package success"
 
-  check_deploy_end:
+  deploy_tail:
     needs:
       - check_deploy
     if: startsWith(github.ref, 'refs/tags/') && !success()
@@ -452,53 +370,50 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
-          fetch-depth: 1
 
-      - name: Folder
-        id: folder
+
+      - name: Checkout templete A
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 1
+          repository: OS-Q/${{ env.TEMP }}A
+          token: ${{ secrets.OSQ_REPO_TOKEN }}
+          path: examples/test1
+
+      - name: delet test1
+        if: success()
+        working-directory: examples/test1
         run: |
-          rm -rf examples boards
+          rm -rf .git*
 
-      - name: Checkout templete
+      - name: Checkout templete B
         uses: actions/checkout@v2
         with:
           submodules: "recursive"
           fetch-depth: 1
-          repository: OS-Q/T${{ env.PLAT }}
+          repository: OS-Q/${{ env.TEMP }}B
           token: ${{ secrets.OSQ_REPO_TOKEN }}
-          path: examples
+          path: examples/test2
 
-      - name: Checkout boards
-        uses: actions/checkout@v2
-        with:
-          submodules: "recursive"
-          fetch-depth: 1
-          repository: OS-Q/B${{ env.PLAT }}
-          token: ${{ secrets.OSQ_REPO_TOKEN }}
-          path: boards
+      - name: delet test2
+        if: success()
+        working-directory: examples/test2
+        run: |
+          rm -rf .git*
 
-      - name: Setup OSS
+      - name: Setup Folder
         uses: Qful/ossutil-action@master
         with:
           endpoint: ${{ secrets.OSS_ENDPOINT }}
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
           access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
 
-      - name: Upload OSS
+      - name: Upload Package
         id: OSS
         run: |
-          ossutil cp ${{ secrets.OSS_P_Q_BUCKET }}P41.md .
-          echo ${GITHUB_REF/refs\/tags\//} >> P41.md
-
-          echo "Platform P41 for NRF52 BLE SoC" >> P41.txt
-          echo ${GITHUB_REF/refs\/tags\//} >> P41.txt
-          git log --stat -3 >> P41.txt
-          rm -rf examples/.git*
-          rm -rf boards/.git*
-          zip -r P41.zip examples boards builder extend misc link.json link.py platform.json platform.py
-          ossutil cp P41.zip ${{ secrets.OSS_P_Q_BUCKET }} -f
-          ossutil cp P41.txt ${{ secrets.OSS_P_Q_BUCKET }} -f
-          ossutil cp P41.md ${{ secrets.OSS_P_Q_BUCKET }} -f
+          zip -r ${{ env.PLAT }}.zip examples boards builder extend misc link.json link.py platform.json platform.py
+          ossutil cp ${{ env.PLAT }}.zip ${{ secrets.OSS_BUCKET_P }} -f
           echo "::set-output name=status::success"
 
       - name: notification
@@ -518,6 +433,12 @@ jobs:
     if: success()
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
@@ -533,24 +454,23 @@ jobs:
       - name: download package
         id: download
         run: |
-          ossutil cp ${{ secrets.OSS_P_Q_BUCKET }}P41.zip .
-          ossutil cp ${{ secrets.OSS_P_Q_BUCKET }}P41.txt .
-          ossutil cp ${{ secrets.OSS_P_Q_BUCKET }}P41.md .
+          echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+          echo -e "${{ env.TOPIC }} ${{ env.PLAT }}" >> ${{ env.PLAT }}.txt
+          echo -e "$(date +"%Y.%m.%d") ${GITHUB_REF/refs\/tags\//}" >> ${{ env.PLAT }}.txt
+          git log "${{ env.LASTV }}..${{ env.VERSION }}" --stat --pretty=format:"%h - %an, %ar : %s" >> ${{ env.PLAT }}.txt
+          ossutil cp ${{ env.PLAT }}.txt ${{ secrets.OSS_MAIL_INFO }} -f
+          ossutil cp ${{ secrets.OSS_BUCKET_P }}${{ env.PLAT }}.zip .
+          ossutil cp ${{ secrets.OSS_MAIL_INFO }}${{ env.PLAT }}.md .
           echo "::set-output name=status::success"
 
-      - name: Install package
+      - name: Install test
         if: steps.download.outputs.status == 'success' && !cancelled()
         run: |
           python -m pip install --upgrade pip
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install file://./P41.zip
-
-      - name: Build
-        id: build
-        if: success()
-        run: |
-          unzip P41.zip
-          qio run -d examples/A
+          pip install -U https://github.com/platformio/platformio/archive/develop.zip
+          pio platform install file://./${{ env.PLAT }}.zip
+          pip install -U https://github.com/OS-Q/${{ env.MONT }}/releases/latest/download/qio.zip
+          qio platform install file://./${{ env.PLAT }}.zip
 
       - name: Send Mail
         if: success()
@@ -560,16 +480,16 @@ jobs:
           server_port: 465
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: OS-Q P41 package released (ESP8266)
+          subject: ${{ env.TOPIC }} ${{ env.PLAT }} released ${{ env.VERSION }}
           to: ${{secrets.MAIL_TO}}
           from: Qitas
           cc: ${{github.event.pusher.email}}
           content_type: text/html
           convert_markdown: true
-          attachments: P41.txt
-          body: file://./P41.md
+          attachments: ${{ env.PLAT }}.txt
+          body: file://./${{ env.PLAT }}.md
 
-  check_package_end:
+  package_tail:
     needs:
       - check_package
     if: startsWith(github.ref, 'refs/tags/') && !success()
@@ -591,8 +511,8 @@ jobs:
           topic: ${{github.repository}}/${{github.workflow}}
           message: "package check fail"
 
-      - name: delet tag
-        run: |
-          git fetch
-          git tag -d ${GITHUB_REF/refs\/tags\//}
-          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
+      # - name: delet tag
+      #   run: |
+      #     git fetch
+      #     git tag -d ${GITHUB_REF/refs\/tags\//}
+      #     git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
