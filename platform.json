@@ -1,6 +1,6 @@
 {
   "name": "P41",
-  "title": "OS-Q Platform nRF52",
+  "title": "Platform nRF52 BLE SoC",
   "description": "Nordic nRF52 BLE SoC with a Cortex-M4F processor.",
   "homepage": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
   "license": "Apache-2.0",

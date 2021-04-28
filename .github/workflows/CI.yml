@@ -10,6 +10,7 @@ on:
       - 'builder/**'
       - 'extend/**'
       - 'examples/**'
+      - 'misc/**'
       - '**.json'
       - '**.py'
 

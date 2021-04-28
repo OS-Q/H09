@@ -10,7 +10,7 @@ env:
   PLAT: "P41"
   TEMP: "T41"
   TOPIC: "NRF52 Platform"
-  LASTV: "v0.0.1"
+  LASTV: "v0.0.2"
 
 jobs:
   Lint_Code:

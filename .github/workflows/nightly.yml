@@ -9,8 +9,9 @@ on:
 #       - master
 #       - main
 
-# env:
-#   UPLOAD_BUILD: false
+env:
+  MONT: "M03"
+  PLAT: "P41"
 
 jobs:
   QIO:
@@ -21,7 +22,6 @@ jobs:
           - "arduino-blink"
           - "arduino-ble-led"
           - "arduino-serial-plotter"
-          # - "arduino-bluefruit-bleuart"
           - "arduino-nina-b1-generic-example"
           - "mbed-rtos-ble-thermometer"
           - "mbed-rtos-blink-baremetal"
@@ -51,14 +51,14 @@ jobs:
       - name: Install master
         if: matrix.package == 'master'
         run: |
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          pip install -U https://github.com/OS-Q/${{ env.MONT }}/releases/latest/download/qio.zip
           qio platform install file://.
 
       - name: Install slave
         if: matrix.package == 'slave'
         run: |
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install https://github.com/OS-Q/P22/archive/qio.zip
+          pip install -U https://github.com/OS-Q/${{ env.MONT }}/releases/latest/download/qio.zip
+          qio platform install https://github.com/OS-Q/${{ env.PLAT }}/archive/qio.zip
 
       - name: Build
         if: success()
@@ -135,7 +135,7 @@ jobs:
         if: matrix.package == 'slave'
         run: |
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install https://github.com/OS-Q/P22/archive/pio.zip
+          pio platform install https://github.com/OS-Q/${{ env.PLAT }}/archive/pio.zip
 
       - name: Build
         if: success()
