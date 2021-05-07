@@ -15,7 +15,7 @@ env:
 install:
   - pip install platformio
     pio update
-  - pio platform install file://.
+  - pio platform install https://github.com/OS-Q/P41/archive/pio.zip
 
 script:
   - pio run -d $PLATFORMIO_PROJECT_DIR
