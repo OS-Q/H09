@@ -23,7 +23,7 @@ install:
   - qio platform install file://.
 
 script:
-  - qio run -d $PLATFORMIO_PROJECT_DIR
+  - pio run -d $PLATFORMIO_PROJECT_DIR
 
 notifications:
   email: false

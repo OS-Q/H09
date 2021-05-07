@@ -38,5 +38,3 @@ steps:
   - pio run -d examples/mbed-rtos-ble-thermometer
   - pio run -d examples/mbed-rtos-blink-baremetal
   - pio run -d examples/arduino-nina-b1-generic-example
-
-
