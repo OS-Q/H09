@@ -61,7 +61,6 @@ jobs:
         example:
           - "arduino-blink"
           - "arduino-ble-led"
-          - "arduino-serial-plotter"
           - "arduino-nina-b1-generic-example"
           - "mbed-rtos-ble-thermometer"
           - "mbed-rtos-blink-baremetal"

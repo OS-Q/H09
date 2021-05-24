@@ -63,12 +63,6 @@
       "owner": "platformio",
       "version": "~1.700.0"
     },
-    "framework-arduino-mbed": {
-      "type": "framework",
-      "optional": true,
-      "owner": "platformio",
-      "version": "~2.1.0"
-    },
     "framework-zephyr": {
       "type": "framework",
       "optional": true,
