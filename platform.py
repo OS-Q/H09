@@ -8,7 +8,7 @@ from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class P411Platform(PlatformBase):
+class P4111Platform(PlatformBase):
 
     def is_embedded(self):
         return True

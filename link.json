@@ -1,11 +1,11 @@
 {
-  "name": "P41",
-  "title": "Platform nRF52 BLE SoC",
-  "description": "Nordic nRF52 BLE SoC with a Cortex-M4F processor.",
+  "name": "P4111",
+  "title": "OS-Q Nordic nRF52 BLE SoC",
+  "description": "The nRF52 Series are built for speed to carry out increasingly complex tasks in the shortest possible time and return to sleep, conserving precious battery power. They have a Cortex-M4F processor and are the most capable Bluetooth Smart SoCs on the market.",
   "homepage": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
   "license": "Apache-2.0",
   "keywords": [
-    "OS-Q",
+    "dev-platform",
     "ARM",
     "Cortex-M",
     "Nordic Semiconductor",
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/platformio/platform-nordicnrf52.git"
   },
-  "version": "7.1.0",
+  "version": "8.0.0",
   "frameworks": {
     "arduino": {
       "package": "framework-arduinonordicnrf5",
@@ -68,7 +68,7 @@
       "type": "framework",
       "optional": true,
       "owner": "platformio",
-      "version": "~1.3.2"
+      "version": "~2.1.0"
     },
     "framework-zephyr": {
       "type": "framework",

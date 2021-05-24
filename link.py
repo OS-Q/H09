@@ -1,3 +1,4 @@
+
 import copy
 import json
 import os
@@ -7,7 +8,7 @@ from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class P41Platform(PlatformBase):
+class P4111Platform(PlatformBase):
 
     def is_embedded(self):
         return True
@@ -52,12 +53,12 @@ class P41Platform(PlatformBase):
                 self.frameworks["arduino"]["package"] = "framework-arduino-mbed"
                 self.frameworks["arduino"][
                     "script"
-                ] = "extend/frameworks/arduino/arduino-core-mbed.py"
+                ] = "builder/frameworks/arduino/mbed-core/arduino-core-mbed.py"
 
         if set(["bootloader", "erase"]) & set(targets):
             self.packages["tool-nrfjprog"]["optional"] = False
         elif (upload_protocol and upload_protocol != "nrfjprog"
-                and "tool-nrfjprog" in self.packages):
+              and "tool-nrfjprog" in self.packages):
             del self.packages["tool-nrfjprog"]
 
         # configure J-LINK tool
