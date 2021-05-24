@@ -8,7 +8,7 @@ from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class P4111Platform(PlatformBase):
+class P411Platform(PlatformBase):
 
     def is_embedded(self):
         return True
@@ -25,7 +25,7 @@ class P4111Platform(PlatformBase):
             if self.board_config(board).get("build.bsp.name",
                                             "nrf5") == "adafruit":
                 self.frameworks["arduino"][
-                    "package"] = "framework-arduinoadafruitnrf52"
+                    "package"] = "A411"
 
             if "mbed" in frameworks:
                 deprecated_boards_file = os.path.join(

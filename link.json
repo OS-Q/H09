@@ -1,5 +1,5 @@
 {
-  "name": "P4111",
+  "name": "P411",
   "title": "OS-Q Nordic nRF52 BLE SoC",
   "description": "The nRF52 Series are built for speed to carry out increasingly complex tasks in the shortest possible time and return to sleep, conserving precious battery power. They have a Cortex-M4F processor and are the most capable Bluetooth Smart SoCs on the market.",
   "homepage": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
@@ -52,11 +52,10 @@
         "~6.51506.0"
       ]
     },
-    "framework-arduinoadafruitnrf52": {
+    "A411": {
       "type": "framework",
       "optional": true,
-      "owner": "platformio",
-      "version": "~1.2100.0"
+      "version": "https://github.com/OS-Q/A411.git"
     },
     "framework-arduinonordicnrf5": {
       "type": "framework",
