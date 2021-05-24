@@ -9,7 +9,7 @@ steps:
   - apt install -y git
   - git submodule update --init --recursive
   - pip install -U https://github.com/platformio/platformio/archive/develop.zip
-  - pio platform install https://github.com/OS-Q/P41/archive/pio.zip
+  - pio platform install https://github.com/OS-Q/P411/archive/pio.zip
   - pio run -d examples/arduino-blink
   - pio run -d examples/arduino-ble-led
   - pio run -d examples/arduino-serial-plotter
