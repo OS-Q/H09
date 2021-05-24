@@ -1,4 +1,4 @@
-name: PIO
+name: CI
 
 on:
   push:
@@ -21,6 +21,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: "recursive"
+        fetch-depth: 1
 
     - name: cppcheck
       uses: Qful/check-action@master
@@ -66,7 +67,6 @@ jobs:
           - "mbed-rtos"
 
         os: [ubuntu-latest, windows-latest, macos-latest]
-
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -83,7 +83,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install file://.
+          pio platform install https://github.com/OS-Q/P411/archive/pio.zip
 
       - name: Build examples
         working-directory: examples
