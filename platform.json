@@ -1,6 +1,6 @@
 {
-  "name": "P41",
-  "title": "Nordic nRF52 BLE SoC",
+  "name": "P411",
+  "title": "OS-Q Nordic nRF52 BLE SoC",
   "description": "The nRF52 Series are built for speed to carry out increasingly complex tasks in the shortest possible time and return to sleep, conserving precious battery power. They have a Cortex-M4F processor and are the most capable Bluetooth Smart SoCs on the market.",
   "homepage": "https://www.nordicsemi.com/Products/nRF52-Series-SoC",
   "license": "Apache-2.0",
@@ -68,7 +68,7 @@
       "type": "framework",
       "optional": true,
       "owner": "platformio",
-      "version": "~2.0.0"
+      "version": "~2.1.0"
     },
     "framework-zephyr": {
       "type": "framework",
